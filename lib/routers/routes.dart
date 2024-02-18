@@ -14,7 +14,7 @@ appRoutes () => [
   ),
   GetPage(
     name: '/signIn',
-    page: () => const SignInView(),
+    page: () => SignInView(),
     transition: Transition.native,
     transitionDuration: const Duration( milliseconds: 500 ),
   )
