@@ -20,8 +20,10 @@ class SignInControl extends GetxController{
     );
 
     if ( resp.statusCode == 200 ) {
-      // var auth = Auth.fromJson( jsonDecode(resp.body) as Map<String, dynamic>);
-      // debugPrint('$auth');
+      var auth = Auth.fromJson( jsonDecode(resp.body) as Map<String, dynamic>);
+      token = RxString(auth.token);
+      debugPrint(auth.token); //store this token
+      
       isAuth(true);
       return true;
       
@@ -36,19 +38,12 @@ class SignInControl extends GetxController{
     return true;
   }
 
-  // testGet() async {
-  //   var resp = await fetchData(
-  //     'https://jsonplaceholder.typicode.com/todos/1',
-  //     Requests.getUser
-  //   );
-  //   debugPrint('\nResp => $resp\n');
-
-  //   final result = resp == null
-  //   ? null
-  //   : List<dynamic>.from(resp['']).map( (e) => debugPrint(e));
-
-  //   return result;
-  // }
+  void logOut () {
+    isAuth(false);
+    token = RxString('');
+    Future.delayed( const Duration(milliseconds: 200));
+    Get.toNamed('/signIn');
+  }
 }
 
 class Auth {
