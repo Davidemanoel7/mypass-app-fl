@@ -121,10 +121,9 @@ class SignInView extends StatelessWidget {
                     onPressed: () async {
                       String email = emailEditControl.value.text;
                       String senha = senhaEditControl.value.text;
-                      await signInControl.logIn(
-                        email,
-                        senha
-                      );
+                      if ( await signInControl.logIn( email, senha )) {
+                        // Get.toNamed('page');
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: MyPassColors.purpleLight,
@@ -165,9 +164,34 @@ class SignInView extends StatelessWidget {
                   ) 
                 )
                 ),
-              ]),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 4.0),
+                      child: Text(
+                        'Não tem conta?',
+                        style: MyPassFonts.style.kLabelSmall(context,
+                          fontWeight: FontWeight.w500,
+                          color: MyPassColors.greyBD
+                        ),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () => debugPrint('criar conta'), //Get.toNamed(),
+                      child: Text(
+                        'Crie agora',
+                        style: MyPassFonts.style.kLabelSmall(context,
+                          fontWeight: FontWeight.bold,
+                          color: MyPassColors.blueLight
+                        ),
+                      ),
+                    )
+                  ],
+                )
+            ]),
           ),
       ),
-      );
+    );
   }
 }
