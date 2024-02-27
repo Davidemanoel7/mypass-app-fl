@@ -25,7 +25,7 @@ class OnboardView extends StatelessWidget {
                   children: [
                     _onboardControl.pageIndex.value == 1 ?
                     GestureDetector(
-                      onTap: () => _onboardControl.pageIndex.value = 3,
+                      onTap: () => Get.toNamed('/signIn'),
                       child: const Text(
                         'Skip',
                         style: TextStyle(
