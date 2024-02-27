@@ -38,6 +38,7 @@ dependencies:
   flutter_native_splash: ^2.3.11
   get: ^4.6.6
   http: ^1.2.0
+  dart_jsonwebtoken: ^2.13.0
 
 dev_dependencies:
   flutter_test:
