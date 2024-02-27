@@ -17,8 +17,7 @@ class SignInView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.manual,
+      body: SizedBox.expand(
         child: Container(
           margin: const EdgeInsets.all(24.0),
           padding: const EdgeInsets.all(8.0),
@@ -39,17 +38,19 @@ class SignInView extends StatelessWidget {
                   child: TextFormField(
                     controller: emailEditControl,
                     style: const TextStyle(
-                      backgroundColor: Colors.white10,
+                      // backgroundColor: Colors.white10,
                     ),
                     decoration: InputDecoration(
                       prefixIcon: const Icon( Icons.email_outlined ),
                       hintText: 'Digite seu email',
                       hintStyle: MyPassFonts.style.kLabelSmall(context, color: const Color.fromARGB(73, 0, 0, 0)),
-                      border: UnderlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.0)
+                      border: OutlineInputBorder(
+                        borderSide: const BorderSide(
+                          color: MyPassColors.greyBD,
+                          strokeAlign: BorderSide.strokeAlignCenter,
+                        ),
+                        borderRadius: BorderRadius.circular(16.0)
                       ),
-                      fillColor: Colors.white54,
-                      filled: true,
                       focusedBorder: OutlineInputBorder(
                         borderSide: const BorderSide(
                           color: MyPassColors.purpleLight,
@@ -57,7 +58,6 @@ class SignInView extends StatelessWidget {
                         ),
                         borderRadius: BorderRadius.circular(16.0),
                       ),
-                      focusColor: MyPassColors.purpleLight,
                     ),
                     textInputAction: TextInputAction.done,
                     validator: (value) => validInput.validationMessage( ValidationType.email, value! ),
@@ -85,11 +85,13 @@ class SignInView extends StatelessWidget {
                       prefixIcon: const Icon( Icons.lock_open_outlined ),
                       hintText: 'Digite sua senha',
                       hintStyle: MyPassFonts.style.kLabelSmall(context, color: const Color.fromARGB(73, 0, 0, 0)),
-                      border: UnderlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.0)
+                      border: OutlineInputBorder(
+                        borderSide: const BorderSide(
+                          color: MyPassColors.greyBD,
+                          strokeAlign: BorderSide.strokeAlignCenter,
+                        ),
+                        borderRadius: BorderRadius.circular(16.0)
                       ),
-                      fillColor: Colors.white54,
-                      filled: true,
                       focusedBorder: OutlineInputBorder(
                         borderSide: const BorderSide(
                           color: MyPassColors.purpleLight,
@@ -97,7 +99,6 @@ class SignInView extends StatelessWidget {
                         ),
                         borderRadius: BorderRadius.circular(16.0),
                       ),
-                      focusColor: MyPassColors.purpleLight,
                     ),
                     textInputAction: TextInputAction.done,
                     validator: (value) => validInput.validationMessage( ValidationType.senha, value! ),
@@ -108,59 +109,65 @@ class SignInView extends StatelessWidget {
                         signInControl.isPassValid(false);
                       }
                     },
+                    onSaved: ( value ) => debugPrint(value),
                   ),
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 24),
-                child: Obx(() => 
+                child: Obx(() =>
+                 signInControl.isEmailValid.value && signInControl.isPassValid.value ? 
                   ElevatedButton(
-                    onPressed: (signInControl.isEmailValid.value && signInControl.isPassValid.value)
-                    ? () async {
-                      String email = emailEditControl.value.text.toString();
-                      String senha = senhaEditControl.value.text.toString();
+                    onPressed: () async {
+                      String email = emailEditControl.value.text;
+                      String senha = senhaEditControl.value.text;
                       await signInControl.logIn(
                         email,
-                        senha 
+                        senha
                       );
-                    }
-                    : null,
-                    
-                    style: (signInControl.isEmailValid.value && signInControl.isPassValid.value)
-                    ? ElevatedButton.styleFrom(
-                        backgroundColor: MyPassColors.purpleLight,
-                        alignment: Alignment.center,
-                        fixedSize: Size(
-                          MediaQuery.of(context).size.width,
-                          56.0
-                        ),
-                        textStyle: const TextStyle(
-                          color: MyPassColors.whiteF0,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold
-                        )
-                    )
-                    : ElevatedButton.styleFrom(
-                        backgroundColor: const Color.fromARGB(255, 137, 137, 137),
-                        alignment: Alignment.center,
-                        fixedSize: Size(
-                          MediaQuery.of(context).size.width,
-                          56.0
-                        ),
-                        textStyle: const TextStyle(
-                          color: MyPassColors.greyDarker,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold
-                        )
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: MyPassColors.purpleLight,
+                      alignment: Alignment.center,
+                      fixedSize: Size(
+                        MediaQuery.of(context).size.width,
+                        56.0
+                      ),
                     ),
-                    child: Text('Login'),
+                    child: const Text(
+                      'Login',
+                      style: TextStyle(
+                        color: MyPassColors.whiteF0,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold
+                      )
+                    )
                   )
+                  : 
+                  ElevatedButton(
+                    onPressed: null,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: MyPassColors.greyBD,
+                      alignment: Alignment.center,
+                      fixedSize: Size(
+                        MediaQuery.of(context).size.width,
+                        56.0
+                      ),
+                    ),
+                    child: const Text(
+                      'Login',
+                      style: TextStyle(
+                        color: MyPassColors.greyDarker,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold
+                      ),
+                    )
+                  ) 
+                )
                 ),
-              ),
-            ],
+              ]),
           ),
-        ),
-      )
-    );
+      ),
+      );
   }
 }
