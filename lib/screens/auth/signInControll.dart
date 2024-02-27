@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mypass/services/fetchData.dart';
+import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 
 class SignInControl extends GetxController{
   
@@ -10,26 +11,48 @@ class SignInControl extends GetxController{
   var isPassValid = false.obs;
   var token = ''.obs;
 
-  Future<bool> logIn( String user, String senha) async {
-    
-    final dynamic body = { 'user': user, 'password': senha };
-    
-    var resp = await fetchData(
-      Requests.signIn,
-      body: body
-    );
+  var email = ''.obs;
+  var user = ''.obs;
+  var userId = ''.obs;
+  var userType = ''.obs;
 
-    if ( resp.statusCode == 200 ) {
-      var auth = Auth.fromJson( jsonDecode(resp.body) as Map<String, dynamic>);
-      token = RxString(auth.token);
-      debugPrint(auth.token); //store this token
-      
-      isAuth(true);
-      return true;
-      
-    } else {
-      return false;
+
+  Future<bool> logIn( String email, String senha) async {
+    try {
+      final dynamic body = { 'email': email, 'password': senha };
+      var resp = await fetchData(
+        Requests.signIn,
+        body: body
+      );
+
+      if ( resp.statusCode == 200 ) {
+        var auth = Auth.fromJson( jsonDecode(resp.body) as Map<String, dynamic>);
+
+        final jwt = JWT.decode(auth.token);
+
+        this.email = RxString(email);
+
+        userId = RxString(jwt.payload['userId']);
+        debugPrint('$userId');
+
+        user = RxString(jwt.payload['user']);
+        debugPrint('$user');
+
+        userType = RxString(jwt.payload['userType']);
+        debugPrint('$userType');
+
+        token = RxString(auth.token);
+        // debugPrint(auth.token); //store this token
+
+        isAuth(true);
+        return true;
+      } else {
+        return false;
       // throw Exception('Failed to make request...');
+      }
+    } catch (e) {
+      debugPrint('\nError: $e');
+      return false; 
     }
   }
 
