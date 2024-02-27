@@ -42,7 +42,7 @@ enum Requests {
   const Requests(this.req, this.method);
 }
 
-Future<http.Response> fetchData( Requests req, { String? params, dynamic body, String? token }) async {
+Future<dynamic> fetchData( Requests req, { String? params, dynamic body, String? token }) async {
   const String baseUrl = 'http://localhost:3000/v1';
 
   String endpoint = baseUrl + req.req + (params ?? "");
@@ -67,7 +67,6 @@ Future<http.Response> fetchData( Requests req, { String? params, dynamic body, S
       default:
         break;
     }
-    // debugPrint(resp);
     return response;
 
   } catch (e) {
@@ -81,15 +80,15 @@ Map<String, String>? getHeaders(Requests req, { String? token }) {
     case Requests.signIn || Requests.signUp || Requests.forgotPass || Requests.resetPass:
       return
         { 
-          "Content-type": "application/json",
-          "Accept": "application/json",
+          "content-type": "application/json",
+          "accept": "application/json",
         };
     default:
       return
         { 
-          "Content-type": "application/json",
-          "Accept": "application/json",
-          "Authorization": "Bearer $token"
+          "content-type": "application/json",
+          "accept": "application/json",
+          "authorization": "Bearer $token"
         };
   }
 }
