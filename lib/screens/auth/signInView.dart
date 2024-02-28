@@ -62,7 +62,7 @@ class SignInView extends StatelessWidget {
                     textInputAction: TextInputAction.done,
                     validator: (value) => validInput.validationMessage( ValidationType.email, value! ),
                     onChanged: (value) {
-                      if (value.isEmail || value.isNotEmpty ){
+                      if ( value.isEmail ){
                         signInControl.isEmailValid(true);
                       } else {
                         signInControl.isEmailValid(false);
@@ -109,7 +109,6 @@ class SignInView extends StatelessWidget {
                         signInControl.isPassValid(false);
                       }
                     },
-                    onSaved: ( value ) => debugPrint(value),
                   ),
                 ),
               ),
@@ -122,7 +121,7 @@ class SignInView extends StatelessWidget {
                       String email = emailEditControl.value.text;
                       String senha = senhaEditControl.value.text;
                       if ( await signInControl.logIn( email, senha )) {
-                        // Get.toNamed('page');
+                        Get.toNamed('/home', arguments: { "user": signInControl.user } );
                       }
                     },
                     style: ElevatedButton.styleFrom(
@@ -133,12 +132,19 @@ class SignInView extends StatelessWidget {
                         56.0
                       ),
                     ),
-                    child: const Text(
-                      'Login',
-                      style: TextStyle(
+                    child: Obx(() => 
+                      !signInControl.authLoad.value ? 
+                      const Text(
+                        'Login',
+                        style: TextStyle(
+                          color: MyPassColors.whiteF0,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold
+                        )
+                      )
+                      :
+                      const CircularProgressIndicator(
                         color: MyPassColors.whiteF0,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold
                       )
                     )
                   )
