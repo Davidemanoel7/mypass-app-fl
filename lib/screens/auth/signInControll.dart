@@ -16,9 +16,11 @@ class SignInControl extends GetxController{
   var userId = ''.obs;
   var userType = ''.obs;
 
+  var authLoad = false.obs;
 
   Future<bool> logIn( String email, String senha) async {
     try {
+      authLoad(true);
       final dynamic body = { 'email': email, 'password': senha };
       var resp = await fetchData(
         Requests.signIn,
@@ -45,6 +47,7 @@ class SignInControl extends GetxController{
         // debugPrint(auth.token); //store this token
 
         isAuth(true);
+        authLoad(false);
         return true;
       } else {
         return false;
