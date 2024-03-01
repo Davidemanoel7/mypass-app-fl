@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mypass/services/fetchData.dart';
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignInControl extends GetxController{
   
@@ -18,40 +19,49 @@ class SignInControl extends GetxController{
 
   var authLoad = false.obs;
 
-  Future<bool> logIn( String email, String senha) async {
+  Future<dynamic> logIn( String email, String senha) async {
     try {
+      final SharedPreferences sharedPrefs = await SharedPreferences.getInstance();
+
       authLoad(true);
       final dynamic body = { 'email': email, 'password': senha };
       var resp = await fetchData(
         Requests.signIn,
         body: body
       );
+      var auth = Auth.fromJson( jsonDecode(resp.body) as Map<String, dynamic>);
 
-      if ( resp.statusCode == 200 ) {
-        var auth = Auth.fromJson( jsonDecode(resp.body) as Map<String, dynamic>);
+      switch ( resp.statusCode) {
+        case 200:
+          final jwt = JWT.decode(auth.token!);
+          this.email = RxString(email);
 
-        final jwt = JWT.decode(auth.token);
+          // store userId on cache
+          userId = RxString(jwt.payload['userId']);
+          await sharedPrefs.setString('userId', jwt.payload['userId']);
 
-        this.email = RxString(email);
+          user = RxString(jwt.payload['user']);
 
-        userId = RxString(jwt.payload['userId']);
-        debugPrint('$userId');
+          userType = RxString(jwt.payload['userType']);
 
-        user = RxString(jwt.payload['user']);
-        debugPrint('$user');
+          // store token on cache
+          token = RxString(jwt.toString());
+          await sharedPrefs.setString( 'token', auth.token! );
 
-        userType = RxString(jwt.payload['userType']);
-        debugPrint('$userType');
-
-        token = RxString(auth.token);
-        // debugPrint(auth.token); //store this token
-
-        isAuth(true);
-        authLoad(false);
-        return true;
-      } else {
-        return false;
-      // throw Exception('Failed to make request...');
+          // store auth on cache
+          isAuth( await sharedPrefs.setBool('authenticated', true) );
+          authLoad(false);
+          
+          return {
+            "auth": true,
+            "token": auth.token!,
+            "message": auth.message
+          };
+        default:
+          return {
+            "auth": false,
+            "message": auth.message
+          };
       }
     } catch (e) {
       debugPrint('\nError: $e');
@@ -63,18 +73,11 @@ class SignInControl extends GetxController{
     // const response = http.get()
     return true;
   }
-
-  void logOut () {
-    isAuth(false);
-    token = RxString('');
-    Future.delayed( const Duration(milliseconds: 200));
-    Get.toNamed('/signIn');
-  }
 }
 
 class Auth {
 
-  final String token;
+  final String? token;
   final String message;
 
   Auth({
@@ -85,7 +88,7 @@ class Auth {
   factory Auth.fromJson(Map<String, dynamic> json) {
     return switch (json) {
       {
-        'token': String token,
+        'token': String token!,
         'message': String message,
       } => Auth(
         token: token,

@@ -120,8 +120,12 @@ class SignInView extends StatelessWidget {
                     onPressed: () async {
                       String email = emailEditControl.value.text;
                       String senha = senhaEditControl.value.text;
-                      if ( await signInControl.logIn( email, senha )) {
-                        Get.toNamed('/home', arguments: { "user": signInControl.user } );
+                      dynamic result = await signInControl.logIn( email, senha );
+                      if ( result['auth'] == true ) {
+                        Get.toNamed('/home');
+                      } else {
+                        debugPrint('Login falhou');
+                        // Get.snackbar("Oops", "Algo de errado aconteceu...");
                       }
                     },
                     style: ElevatedButton.styleFrom(
