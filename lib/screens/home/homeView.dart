@@ -16,12 +16,13 @@ class HomeView extends StatelessWidget {
         padding: const EdgeInsets.all(24.0),
         alignment: Alignment.center,
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Padding(
               padding: EdgeInsets.only(bottom: 24.0 ),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Text('Hi, '),
                   Icon( Icons.menu_rounded)
