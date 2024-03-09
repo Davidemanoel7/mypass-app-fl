@@ -1,8 +1,11 @@
 import 'dart:convert';
+
+import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mypass/models/tokenJWT.dart';
 import 'package:mypass/services/fetchData.dart';
-import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignInControl extends GetxController{
   
@@ -18,43 +21,72 @@ class SignInControl extends GetxController{
 
   var authLoad = false.obs;
 
-  Future<bool> logIn( String email, String senha) async {
+  Future<dynamic> logIn( String email, String senha) async {
     try {
+      final SharedPreferences sharedPrefs = await SharedPreferences.getInstance();
+
       authLoad(true);
       final dynamic body = { 'email': email, 'password': senha };
       var resp = await fetchData(
         Requests.signIn,
         body: body
       );
+      
+      var respbody = jsonDecode(resp.body) as Map<String, dynamic>;
 
-      if ( resp.statusCode == 200 ) {
-        var auth = Auth.fromJson( jsonDecode(resp.body) as Map<String, dynamic>);
+      switch ( resp.statusCode ) {
+        case 200:
+          var auth = Auth.fromJson( respbody );
+          final jwt = JWT.decode(auth.token!);
+          this.email = RxString(email);
 
-        final jwt = JWT.decode(auth.token);
+          // store userId on cache
+          userId = RxString(jwt.payload['userId']);
+          await sharedPrefs.setString('userId', jwt.payload['userId']);
 
-        this.email = RxString(email);
+          user = RxString(jwt.payload['user']);
 
-        userId = RxString(jwt.payload['userId']);
-        debugPrint('$userId');
+          userType = RxString(jwt.payload['userType']);
 
-        user = RxString(jwt.payload['user']);
-        debugPrint('$user');
+          // store token on cache
+          token = RxString(jwt.toString());
+          await sharedPrefs.setString( 'token', auth.token! );
 
-        userType = RxString(jwt.payload['userType']);
-        debugPrint('$userType');
+          // store auth on cache
+          isAuth( await sharedPrefs.setBool('authenticated', true) );
+          authLoad(false);
 
-        token = RxString(auth.token);
-        // debugPrint(auth.token); //store this token
+          dynamic response = {
+            'auth': true,
+          };
+          return response;
 
-        isAuth(true);
-        authLoad(false);
-        return true;
-      } else {
-        return false;
-      // throw Exception('Failed to make request...');
+        case 401:
+          dynamic response = {
+            'auth': false,
+            'message': 'Senha incorreta'
+          };
+          authLoad(false);
+          return response;
+        case 404:
+          dynamic response = {
+            'auth': false,
+            'message': 'Nenhum usuário encontrado com este email.'
+          };
+          authLoad(false);
+          return response;
+        default:
+          // Map<String, dynamic> loginResp = respbody;
+          dynamic response = {
+            'auth': false,
+            'message': 'Oops. talvez estejamos com instabilidade no servidor. Tente novamentte mais tarde'
+          };
+          authLoad(false);
+          return response;
       }
     } catch (e) {
       debugPrint('\nError: $e');
+      authLoad(false);
       return false; 
     }
   }
@@ -62,36 +94,5 @@ class SignInControl extends GetxController{
   Future<bool> signUp() async {
     // const response = http.get()
     return true;
-  }
-
-  void logOut () {
-    isAuth(false);
-    token = RxString('');
-    Future.delayed( const Duration(milliseconds: 200));
-    Get.toNamed('/signIn');
-  }
-}
-
-class Auth {
-
-  final String token;
-  final String message;
-
-  Auth({
-    required this.token,
-    required this.message
-  });
-
-  factory Auth.fromJson(Map<String, dynamic> json) {
-    return switch (json) {
-      {
-        'token': String token,
-        'message': String message,
-      } => Auth(
-        token: token,
-        message: message
-      ),
-      _ => throw const FormatException('Failed to load json data')
-    };
   }
 }

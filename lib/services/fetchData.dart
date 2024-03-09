@@ -43,7 +43,7 @@ enum Requests {
 }
 
 Future<dynamic> fetchData( Requests req, { String? params, dynamic body, String? token }) async {
-  const String baseUrl = 'http://localhost:3000/v1';
+  const String baseUrl = 'https://mypass-api.onrender.com/v1';
 
   String endpoint = baseUrl + req.req + (params ?? "");
   var header = getHeaders( req, token: token );
