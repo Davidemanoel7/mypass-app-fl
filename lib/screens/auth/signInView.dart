@@ -144,7 +144,7 @@ class SignInView extends StatelessWidget {
                           onPressed: () async {
                             String email = emailEditControl.value.text;
                             String senha = senhaEditControl.value.text;
-                            dynamic result = await signInControl.logIn( email, senha );
+                            Map<String, dynamic> result = await signInControl.logIn( email, senha );
                             if ( result['auth'] == true ) {
                               Get.toNamed('/home');
                             } else {
@@ -159,13 +159,14 @@ class SignInView extends StatelessWidget {
                                   ),
                                 ),
                                 messageText: Text(
-                                  '${result['message']}',
+                                  '${result['message']}...',
                                   style: MyPassFonts.style.kLabelSmall(context,
                                     fontWeight: FontWeight.w400,
                                     color: MyPassColors.black1B
                                   ),
                                 ),
                                 colorText: MyPassColors.black1B,
+                                leftBarIndicatorColor: MyPassColors.redAlert,
                                 animationDuration: const Duration( seconds: 1 ),
                                 backgroundColor: Colors.white,
                                 snackPosition: SnackPosition.TOP,
@@ -233,7 +234,7 @@ class SignInView extends StatelessWidget {
                       ),
                     ),
                     GestureDetector(
-                      onTap: () => debugPrint('criar conta'), //Get.toNamed(),
+                      onTap: () => Get.toNamed('/signUp', preventDuplicates: true),
                       child: Text(
                         'Crie agora',
                         style: MyPassFonts.style.kLabelSmall(context,

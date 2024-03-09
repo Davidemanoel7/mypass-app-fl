@@ -31,10 +31,12 @@ class SignInControl extends GetxController{
         Requests.signIn,
         body: body
       );
+      
+      var respbody = jsonDecode(resp.body) as Map<String, dynamic>;
 
       switch ( resp.statusCode ) {
         case 200:
-          var auth = Auth.fromJson( jsonDecode(resp.body) as Map<String, dynamic>);
+          var auth = Auth.fromJson( respbody );
           final jwt = JWT.decode(auth.token!);
           this.email = RxString(email);
 
@@ -55,24 +57,36 @@ class SignInControl extends GetxController{
           authLoad(false);
 
           dynamic response = {
-            "auth": true,
-            "token": auth.token!,
-            "message": auth.message
+            'auth': true,
           };
-          debugPrint('$response');
           return response;
 
-        default:
-          var loginResp = jsonDecode(resp.body) as Map<String, dynamic>;
+        case 401:
           dynamic response = {
             'auth': false,
-            'message': loginResp['message']
+            'message': 'Senha incorreta'
+          };
+          authLoad(false);
+          return response;
+        case 404:
+          dynamic response = {
+            'auth': false,
+            'message': 'Nenhum usuário encontrado com este email.'
+          };
+          authLoad(false);
+          return response;
+        default:
+          // Map<String, dynamic> loginResp = respbody;
+          dynamic response = {
+            'auth': false,
+            'message': 'Oops. talvez estejamos com instabilidade no servidor. Tente novamentte mais tarde'
           };
           authLoad(false);
           return response;
       }
     } catch (e) {
       debugPrint('\nError: $e');
+      authLoad(false);
       return false; 
     }
   }
