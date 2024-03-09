@@ -11,6 +11,7 @@ class SignUpControl extends GetxController{
   var isEmailValid = false.obs;
   var isPassValid = false.obs;
   var isUserValid = false.obs;
+  var isNameValid = false.obs;
 
   var signUpLoad = false.obs;
 
@@ -30,27 +31,36 @@ class SignUpControl extends GetxController{
         Requests.signUp,
         body: body
       );
-
       switch ( resp.statusCode ) {
-        case 200:
-          var user = User.fromJson( jsonDecode(resp.body) as Map<String, dynamic>);
-          final jwt = JWT.decode( resp.body['token'] );
-          await sharedPreferences.setString('token', resp.body['token']);
+        case 201:
+          var responseBody = jsonDecode(resp.body) as Map<String, dynamic>;
+          debugPrint('${responseBody['createdUser']}');
+          var user = User.fromJson( responseBody['createdUser'] as Map<String, dynamic>);
+          final jwt = JWT.decode( responseBody['token']);
+          await sharedPreferences.setString('token', responseBody['token']);
           signUpLoad(false);
           return {
             "created": true,
           };
+        // case: 4
         default:
+          var signUpResp = jsonDecode(resp.body) as Map<String, dynamic>;
+          debugPrint('$signUpResp');
+          // if (signUpResp['message'])
           signUpLoad(false);
           return {
             "created": false,
-            "message": resp.body['message']
+            "message": signUpResp['message']
           };
       }
 
     } catch (e) {
+      signUpLoad(false);
       debugPrint('$e');
-      return false; 
+      return {
+        "create": false,
+        "message": 'Erro durante criação da conta... Tente outra vez.'
+      }; 
     }
   }
 }
