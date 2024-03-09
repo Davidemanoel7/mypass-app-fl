@@ -7,12 +7,12 @@ import 'package:mypass/utils/themes.dart';
 class SignUpView extends StatelessWidget{
   SignUpView({super.key});
 
-  SignUpControl signUpControl = Get.put(SignUpControl());
+  final SignUpControl signUpControl = Get.put(SignUpControl());
 
-  TextEditingController nomeEditControl = TextEditingController();
-  TextEditingController userEditControl = TextEditingController();
-  TextEditingController emailEditControl = TextEditingController();
-  TextEditingController senhaEditControl = TextEditingController();
+  final TextEditingController nomeEditControl = TextEditingController();
+  final TextEditingController userEditControl = TextEditingController();
+  final TextEditingController emailEditControl = TextEditingController();
+  final TextEditingController senhaEditControl = TextEditingController();
 
   final validInput = ValidationInput();
 
@@ -66,7 +66,7 @@ class SignUpView extends StatelessWidget{
                         validator: (value) {
                           if ( value!.isEmpty ) {
                             return 'Nome de usuário não pode ser nulo';
-                          } else if ( value!.length < 4 || value!.length > 100) {
+                          } else if ( value.length < 4 || value.length > 100) {
                             return 'São aceitos apenas nomes entre 4 e 100 caracteres';
                           } else {
                             return null;

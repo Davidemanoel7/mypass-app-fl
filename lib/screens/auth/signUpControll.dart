@@ -34,8 +34,8 @@ class SignUpControl extends GetxController{
       switch ( resp.statusCode ) {
         case 201:
           var responseBody = jsonDecode(resp.body) as Map<String, dynamic>;
-          var user = User.fromJson( responseBody['createdUser'] as Map<String, dynamic>);
-          final jwt = JWT.decode( responseBody['token']);
+          User.fromJson( responseBody['createdUser'] as Map<String, dynamic>);
+          JWT.decode( responseBody['token']);
           await sharedPreferences.setString('token', responseBody['token']);
           
           signUpLoad(false);
@@ -51,7 +51,7 @@ class SignUpControl extends GetxController{
           };
 
         default:
-          var signUpResp = jsonDecode(resp.body) as Map<String, dynamic>;
+          jsonDecode(resp.body) as Map<String, dynamic>;
           signUpLoad(false);
           return {
             "created": false,
