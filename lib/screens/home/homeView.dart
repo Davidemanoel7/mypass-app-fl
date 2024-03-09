@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mypass/screens/auth/signInControll.dart';
 import 'package:mypass/screens/home/homeControll.dart';
 import 'package:mypass/utils/themes.dart';
 
