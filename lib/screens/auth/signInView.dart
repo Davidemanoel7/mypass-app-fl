@@ -148,8 +148,35 @@ class SignInView extends StatelessWidget {
                             if ( result['auth'] == true ) {
                               Get.toNamed('/home');
                             } else {
-                              debugPrint('message: ${result['message']}');
-                              // Get.snackbar("Oops", "Algo de errado aconteceu...");
+                              Get.snackbar(
+                                "Oops",
+                                "",
+                                titleText: Text(
+                                  'Oops',
+                                  style: MyPassFonts.style.kLabelLarge(context,
+                                    fontWeight: FontWeight.bold,
+                                    color: MyPassColors.purpleLight,
+                                  ),
+                                ),
+                                messageText: Text(
+                                  '${result['message']}',
+                                  style: MyPassFonts.style.kLabelSmall(context,
+                                    fontWeight: FontWeight.w400,
+                                    color: MyPassColors.black1B
+                                  ),
+                                ),
+                                colorText: MyPassColors.black1B,
+                                animationDuration: const Duration( seconds: 1 ),
+                                backgroundColor: Colors.white,
+                                snackPosition: SnackPosition.TOP,
+                                borderWidth: 2,
+                                borderRadius: 16,
+                                borderColor: MyPassColors.whiteF0,
+                                isDismissible: true,
+                                dismissDirection: DismissDirection.horizontal,
+                                duration: const Duration( seconds: 4 ),
+                                forwardAnimationCurve: Curves.easeInOutQuad,
+                              );
                             }
                           },
                           style: ElevatedButton.styleFrom(
