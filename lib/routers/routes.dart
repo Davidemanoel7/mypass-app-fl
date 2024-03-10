@@ -3,6 +3,7 @@
 import 'package:get/get.dart';
 import 'package:mypass/screens/auth/signInView.dart';
 import 'package:mypass/screens/auth/signUpView.dart';
+import 'package:mypass/screens/forgot/forgotView.dart';
 import 'package:mypass/screens/home/homeView.dart';
 
 import '../screens/onboard/onboard_view.dart';
@@ -32,4 +33,10 @@ appRoutes () => [
     transition: Transition.native,
     transitionDuration: const Duration( milliseconds: 500 ),
   ),
+  GetPage(
+    name: '/forgot',
+    page: () => ForgorView(),
+    transition: Transition.native,
+    transitionDuration: const Duration( milliseconds: 500 ),
+  )
 ];

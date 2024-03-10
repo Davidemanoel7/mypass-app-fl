@@ -117,7 +117,7 @@ class SignInView extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(top: 8, bottom: 8),
                   child: GestureDetector(
-                    onTap: () => debugPrint('esqueci minha senha'),
+                    onTap: () => Get.toNamed('/forgot'),
                     child: Text(
                       'Esqueci minha senha',
                       style: MyPassFonts.style.kLabelSmall(context,
