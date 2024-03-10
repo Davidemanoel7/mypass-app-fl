@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mypass/screens/auth/signInControll.dart';
 import 'package:mypass/screens/home/homeControll.dart';
 import 'package:mypass/utils/themes.dart';
 
@@ -44,10 +43,12 @@ class HomeView extends StatelessWidget {
             ),
             GestureDetector(
               onTap: () async {
-                bool logout = await homeControll.logOut();
+                dynamic logout = await homeControll.logOut();
                 debugPrint('$logout');
                 if ( logout ) {
-                  Get.back();
+                  Get.offAndToNamed('/signIn');
+                } else {
+                  debugPrint('$logout');
                 }
               },
               child: const Text(

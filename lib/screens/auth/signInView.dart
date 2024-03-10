@@ -117,7 +117,7 @@ class SignInView extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(top: 8, bottom: 8),
                   child: GestureDetector(
-                    onTap: () => debugPrint('esqueci minha senha'),
+                    onTap: () => Get.toNamed('/forgot'),
                     child: Text(
                       'Esqueci minha senha',
                       style: MyPassFonts.style.kLabelSmall(context,
@@ -146,6 +146,7 @@ class SignInView extends StatelessWidget {
                             String senha = senhaEditControl.value.text;
                             Map<String, dynamic> result = await signInControl.logIn( email, senha );
                             if ( result['auth'] == true ) {
+                              senhaEditControl.clear();
                               Get.toNamed('/home');
                             } else {
                               Get.snackbar(

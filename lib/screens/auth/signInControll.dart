@@ -68,6 +68,7 @@ class SignInControl extends GetxController{
           };
           authLoad(false);
           return response;
+
         case 404:
           dynamic response = {
             'auth': false,
@@ -75,8 +76,8 @@ class SignInControl extends GetxController{
           };
           authLoad(false);
           return response;
+
         default:
-          // Map<String, dynamic> loginResp = respbody;
           dynamic response = {
             'auth': false,
             'message': 'Oops. talvez estejamos com instabilidade no servidor. Tente novamentte mais tarde'
@@ -89,10 +90,5 @@ class SignInControl extends GetxController{
       authLoad(false);
       return false; 
     }
-  }
-
-  Future<bool> signUp() async {
-    // const response = http.get()
-    return true;
   }
 }

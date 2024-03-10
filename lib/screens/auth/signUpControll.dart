@@ -34,27 +34,33 @@ class SignUpControl extends GetxController{
       switch ( resp.statusCode ) {
         case 201:
           var responseBody = jsonDecode(resp.body) as Map<String, dynamic>;
-          debugPrint('${responseBody['createdUser']}');
-          var user = User.fromJson( responseBody['createdUser'] as Map<String, dynamic>);
-          final jwt = JWT.decode( responseBody['token']);
+          User.fromJson( responseBody['createdUser'] as Map<String, dynamic>);
+          JWT.decode( responseBody['token']);
           await sharedPreferences.setString('token', responseBody['token']);
+          
           signUpLoad(false);
           return {
             "created": true,
           };
-        // case: 4
-        default:
-          var signUpResp = jsonDecode(resp.body) as Map<String, dynamic>;
-          debugPrint('$signUpResp');
-          // if (signUpResp['message'])
+
+        case 409:
           signUpLoad(false);
           return {
             "created": false,
-            "message": signUpResp['message']
+            "message": 'Este email já foi usado por outro usuário. Tente outro!'
+          };
+
+        default:
+          jsonDecode(resp.body) as Map<String, dynamic>;
+          signUpLoad(false);
+          return {
+            "created": false,
+            "message": 'Não foi possível criar a conta. Tente novamente...'
           };
       }
 
     } catch (e) {
+
       signUpLoad(false);
       debugPrint('$e');
       return {
