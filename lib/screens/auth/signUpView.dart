@@ -40,9 +40,6 @@ class SignUpView extends StatelessWidget{
                       autovalidateMode: AutovalidateMode.always,
                       child: TextFormField(
                         controller: nomeEditControl,
-                        style: const TextStyle(
-                        // backgroundColor: Colors.white10,
-                        ),
                         decoration: InputDecoration(
                           prefixIcon: const Icon( Icons.person_outline_sharp ),
                           hintText: 'Digite seu nome completo',

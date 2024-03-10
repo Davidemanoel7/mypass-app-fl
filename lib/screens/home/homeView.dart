@@ -43,10 +43,12 @@ class HomeView extends StatelessWidget {
             ),
             GestureDetector(
               onTap: () async {
-                bool logout = await homeControll.logOut();
+                dynamic logout = await homeControll.logOut();
                 debugPrint('$logout');
                 if ( logout ) {
-                  Get.back();
+                  Get.offAndToNamed('/signIn');
+                } else {
+                  debugPrint('$logout');
                 }
               },
               child: const Text(
