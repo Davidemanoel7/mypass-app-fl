@@ -20,6 +20,20 @@ class SignUpView extends StatelessWidget{
   Widget build(BuildContext context) {
     return(
       Scaffold(
+        // extendBodyBehindAppBar: true,
+        appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        forceMaterialTransparency: true,
+        title: Text(
+          'Criar conta',
+          style: MyPassFonts.style.kTitleMedium(context,
+            color: MyPassColors.greyDarker,
+            fontWeight: FontWeight.w700
+          ),
+        ),
+        centerTitle: true,
+      ),
         body: Center(
           child: SingleChildScrollView(
             child: Padding(
