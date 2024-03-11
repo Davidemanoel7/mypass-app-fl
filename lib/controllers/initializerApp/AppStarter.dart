@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:mypass/utils/themes.dart';
 
@@ -20,6 +21,10 @@ class AppStarter extends StatelessWidget {
         colorScheme: const ColorScheme.light(),
         appBarTheme: const AppBarTheme(
           color: MyPassColors.purpleLight,
+          systemOverlayStyle: SystemUiOverlayStyle(
+            statusBarColor: MyPassColors.whiteF0,
+            statusBarIconBrightness: Brightness.dark
+          ),
         ),
       ),
       scrollBehavior: const MaterialScrollBehavior(),
