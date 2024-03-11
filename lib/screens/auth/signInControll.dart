@@ -45,6 +45,7 @@ class SignInControl extends GetxController{
           await sharedPrefs.setString('userId', jwt.payload['userId']);
 
           user = RxString(jwt.payload['user']);
+          await sharedPrefs.setString( 'user', jwt.payload['user'] );
 
           userType = RxString(jwt.payload['userType']);
 
