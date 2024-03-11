@@ -48,7 +48,6 @@ Future<dynamic> fetchData( Requests req, { String? params, dynamic body, String?
 
   dynamic response;
   try {
-    debugPrint('\nEndpoint: $endpoint\n');
     switch (req.method) {
       case HttpMethod.POST:
         response = await http.post( Uri.parse(endpoint), headers: header, body: jsonEncode(body) );
