@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mypass/screens/forgot/forgotControll.dart';
@@ -14,7 +16,7 @@ class ForgorView extends StatelessWidget {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.transparent,  
         elevation: 0,
         title: Text(
           'Recuperar senha',
@@ -108,37 +110,71 @@ class ForgorView extends StatelessWidget {
                             if ( result['sended'] == true ){
                               Get.dialog(
                                 Center(
-                                  child: Container(
-                                    width: MediaQuery.of(context).size.width * 0.6,
-                                    height: MediaQuery.of(context).size.height * 0.25,
-                                    padding: const EdgeInsets.all(16),
-                                    decoration: const BoxDecoration(
-                                      color: MyPassColors.whiteF0,
-                                      borderRadius: BorderRadius.all(Radius.circular(16))
-                                    ),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          'Email enviado!',
-                                          style: MyPassFonts.style.kTitleMedium(context,
-                                            color: MyPassColors.greenSucess,
-                                            fontWeight: FontWeight.bold
-                                          ),
+                                  child: BackdropFilter(
+                                    filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
+                                    child: Container(
+                                      width: MediaQuery.of(context).size.width * 0.65,
+                                      height: MediaQuery.of(context).size.height * 0.25,
+                                      padding: const EdgeInsets.all(16),
+                                      decoration: BoxDecoration(
+                                        gradient: LinearGradient(
+                                          colors: [
+                                            MyPassColors.whiteF0,
+                                            MyPassColors.whiteF0.withOpacity(0.9),
+                                          ],
+                                          begin: AlignmentDirectional.topStart,
+                                          end: AlignmentDirectional.bottomEnd,
                                         ),
-                                        Text(
-                                          '${result['message']}',
-                                          style: MyPassFonts.style.kTitleMedium(context,
-                                            color: MyPassColors.greyDarker
-                                          ),
+                                        borderRadius: const BorderRadius.all(Radius.circular(16)),
+                                        border: Border.all(
+                                          width: 1,
+                                          color: MyPassColors.blueLight.withOpacity(0.2)
                                         )
-                                      ],
-                                    ),     
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            'Email enviado!',
+                                            style: MyPassFonts.style.kTitleMedium(context,
+                                              color: MyPassColors.purpleLight,
+                                              fontWeight: FontWeight.bold
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(top: 8, bottom: 16),
+                                            child: Text(
+                                              'Link de recuperação enviado para seu email. Verifique sua caixa de entrada. [Expira em 1 hora]',
+                                              style: MyPassFonts.style.kLabelMedium(context,
+                                                color: MyPassColors.black1B,
+                                              ),
+                                              textAlign: TextAlign.justify,
+                                            ),
+                                          ),
+                                          Row(
+                                            crossAxisAlignment: CrossAxisAlignment.end,
+                                            mainAxisAlignment: MainAxisAlignment.end,
+                                            children: [
+                                              GestureDetector(
+                                                onTap: () => Get.back(),
+                                                child: Text(
+                                                  'Ok',
+                                                  style: MyPassFonts.style.kTitleLarge(context,
+                                                    color: MyPassColors.purpleLight,
+                                                    fontSize: 16
+                                                  ),
+                                                  textAlign: TextAlign.center,
+                                                ),
+                                              ),
+                                            ],
+                                          )
+                                        ],
+                                      ),     
+                                    ),
                                   ),
                                 ),
                               );
-                              debugPrint('email enviado');
                             } else {
                               Get.snackbar(
                                 "Oops",
