@@ -5,12 +5,22 @@ import 'package:shared_preferences/shared_preferences.dart';
 class HomeControll extends GetxController {
   
   var userName = ''.obs;
+  var email = ''.obs;
+  var userId = ''.obs;
 
   @override
   void onInit() async {
     final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    
     final String? user = sharedPreferences.getString('user');
     userName(user);
+
+    final String? mail = sharedPreferences.getString('email');
+    email(mail);
+
+    final String? userID = sharedPreferences.getString('userId');
+    userId(userID);
+
     super.onInit();
   }
 
