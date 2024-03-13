@@ -21,7 +21,7 @@ enum Requests {
 
   //user endpoints
   signUp("/user/signup/", HttpMethod.POST),
-  getUser("/uset/get/", HttpMethod.GET),
+  getUser("/user/get/", HttpMethod.GET),
   updateUser("/user/update/", HttpMethod.PATCH),
   changeProfileImage("/user/changeProfileImage/", HttpMethod.PATCH),
   changeAccountPass("/user/changeUserPass/", HttpMethod.PATCH),
