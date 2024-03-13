@@ -20,7 +20,7 @@ class HomeView extends StatelessWidget {
             () => homeControll.userName.value != ''
             ?
               Text(
-                'Hi, ${homeControll.userName}',
+                'Olá, ${homeControll.userName}',
                 style: MyPassFonts.style.kLabelMedium(context,
                   color: MyPassColors.black1B,
                   fontWeight: FontWeight.w700
@@ -28,7 +28,7 @@ class HomeView extends StatelessWidget {
               )
             :
               Text(
-                'Hi, ',
+                'Olá, ',
                 style: MyPassFonts.style.kLabelMedium(context,
                   color: MyPassColors.black1B,
                   fontWeight: FontWeight.w700
