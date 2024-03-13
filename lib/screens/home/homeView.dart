@@ -40,7 +40,13 @@ class HomeView extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(right: 24),
               child: IconButton(
-                onPressed: () => Get.toNamed('/profile'),
+                onPressed: () {
+                  Get.toNamed('/profile', arguments: {
+                    'user': homeControll.userName.value,
+                    'userID': homeControll.userId.value,
+                    'email': homeControll.email.value,
+                  });
+                },
                 icon: const Icon(
                   Icons.menu,
                   color: MyPassColors.purpleLight,
