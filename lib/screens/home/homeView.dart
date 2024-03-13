@@ -40,7 +40,7 @@ class HomeView extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(right: 24),
               child: IconButton(
-                onPressed: () => debugPrint('Ir para /account'),
+                onPressed: () => Get.toNamed('/profile'),
                 icon: const Icon(
                   Icons.menu,
                   color: MyPassColors.purpleLight,
