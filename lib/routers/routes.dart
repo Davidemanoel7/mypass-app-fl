@@ -3,6 +3,7 @@
 import 'package:get/get.dart';
 import 'package:mypass/screens/auth/signInView.dart';
 import 'package:mypass/screens/auth/signUpView.dart';
+import 'package:mypass/screens/changeData/changeDataView.dart';
 import 'package:mypass/screens/forgot/forgotView.dart';
 import 'package:mypass/screens/home/homeView.dart';
 import 'package:mypass/screens/profile/profileView.dart';
@@ -43,6 +44,12 @@ appRoutes () => [
   GetPage(
     name: '/profile',
     page: () => ProfileView(),
+    transition: Transition.native,
+    transitionDuration: const Duration( milliseconds: 500 ),
+  ),
+  GetPage(
+    name: '/changeData',
+    page: () => ChangeDataView(),
     transition: Transition.native,
     transitionDuration: const Duration( milliseconds: 500 ),
   ),
