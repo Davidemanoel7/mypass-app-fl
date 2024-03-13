@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mypass/screens/profile/profileControl.dart';
@@ -35,7 +37,7 @@ class ProfileView extends StatelessWidget {
                 child: TextFormField(
                   enabled: false,
                   readOnly: true,
-                  initialValue: Get.arguments['user'],
+                  initialValue: Get.arguments['user'] ?? 'Name',
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
                       borderSide: const BorderSide(
@@ -52,7 +54,7 @@ class ProfileView extends StatelessWidget {
                 child: TextFormField(
                   enabled: false,
                   readOnly: true,
-                  initialValue: Get.parameters['email'],
+                  initialValue: Get.arguments['email'] ?? 'email',
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
                       borderSide: const BorderSide(
@@ -68,10 +70,12 @@ class ProfileView extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(vertical: 8),
                 child: TextFormField(
                   readOnly: true,
-                  initialValue: 'name',
+                  initialValue: Get.arguments['name'] ??'Nome do usuário',
                   decoration: InputDecoration(
                     suffixIcon: IconButton(
-                      onPressed: (){},
+                      onPressed: () {
+                        Get.toNamed('/changeData', parameters: { "AppBarTitle": 'nome' });
+                      },
                       icon: const Icon(
                         Icons.mode_edit,
                         size: 22,
@@ -93,7 +97,7 @@ class ProfileView extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(vertical: 8),
                 child: TextFormField(
                   readOnly: true,
-                  initialValue: 'senha',
+                  initialValue: '12345678',
                   obscureText: true,
                   decoration: InputDecoration(
                     suffixIcon: IconButton(
@@ -113,6 +117,32 @@ class ProfileView extends StatelessWidget {
                       borderRadius: BorderRadius.circular(8.0)
                     ),
                   )
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                child: OutlinedButton(
+                  onPressed: () => Get.toNamed('/deleteAccount'),
+                  style: OutlinedButton.styleFrom(
+                    side: const BorderSide(
+                      color: MyPassColors.redAlert,
+                    ),
+                    backgroundColor: Colors.white,
+                    fixedSize: Size(
+                      MediaQuery.of(context).size.width,
+                      56.0,
+                    ),
+                    shape: LinearBorder.bottom(
+                      size: 0.4,
+                      alignment: BorderSide.strokeAlignCenter,
+                    )
+                  ),
+                  child: Text(
+                    'Encerrar conta',
+                    style: MyPassFonts.style.kLabelMedium(context,
+                      color: MyPassColors.redAlert
+                    ),
+                  ),
                 ),
               ),
               Expanded(
@@ -149,23 +179,6 @@ class ProfileView extends StatelessWidget {
                               ),
                             )
                           ],
-                        ),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () => debugPrint('Encerrar conta'),
-                      child: const Padding(
-                        padding:  EdgeInsets.symmetric(vertical: 16.0),
-                        child: Text(
-                          'Encerrar conta',
-                          style: TextStyle(
-                            color: MyPassColors.redAlert,
-                            fontWeight: FontWeight.w500,
-                            decoration: TextDecoration.underline,
-                            decorationThickness: 4,
-                            decorationStyle: TextDecorationStyle.solid,
-                            decorationColor: MyPassColors.redAlert,
-                          ),
                         ),
                       ),
                     ),
