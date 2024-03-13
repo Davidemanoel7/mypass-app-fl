@@ -102,7 +102,7 @@ class SignInView extends StatelessWidget {
                             borderRadius: BorderRadius.circular(16.0),
                           ),
                         ),
-                        textInputAction: TextInputAction.done,
+                        textInputAction: TextInputAction.send,
                         obscureText: true,
                         validator: (value) => validInput.validationMessage( ValidationType.senha, value! ),
                         onChanged: (value) {
