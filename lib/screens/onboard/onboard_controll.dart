@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -14,17 +15,25 @@ class OnboardControl extends GetxController {
   @override
   void onInit() async {
     final SharedPreferences sharedPrefs = await SharedPreferences.getInstance();
-    
-    final bool? onboarded = sharedPrefs.getBool('hasOnboard');
-    final bool? logged = sharedPrefs.getBool('authenticated');
-    
-    if ( onboarded == null ) {
-      await sharedPrefs.setBool('hasOnboard', false);
+
+    bool? onboarded = sharedPrefs.getBool('hasOnboard');
+    bool? logged = sharedPrefs.getBool('authenticated');
+
+    if ( logged == null ) {
+      debugPrint('Logged [NULL]: $logged');
+      await sharedPrefs.setBool('authenticated', false);
+      logged = false;
     }
 
-    if ( onboarded == true && !logged! ) {
+    if ( onboarded == null ) {
+      debugPrint('Onboarded [NULL]: $onboarded');
+      await sharedPrefs.setBool('hasOnboard', false);
+      onboarded = false;
+    }
+
+    if ( onboarded == true && !logged ) {
       Get.offAllNamed('/signIn');
-    } else if( onboarded == true && logged! ) {
+    } else if( onboarded == true && logged ) {
       Get.offNamed('/home');
     }
 
