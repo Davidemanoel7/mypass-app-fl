@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mypass/screens/profile/profileControl.dart';
@@ -26,172 +24,219 @@ class ProfileView extends StatelessWidget {
           ),
           centerTitle: true,
         ),
-        body: Container(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                child: TextFormField(
-                  enabled: false,
-                  readOnly: true,
-                  initialValue: Get.arguments['user'] ?? 'Name',
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderSide: const BorderSide(
-                        color: MyPassColors.greyBD,
-                        strokeAlign: BorderSide.strokeAlignCenter,
+        body: SizedBox(
+          child: Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Obx(() => 
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    child: Container(
+                      alignment: Alignment.centerLeft,
+                      height: 56,
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.all(Radius.circular(8)),
+                        border: Border.all(
+                          width: 1,
+                          color: MyPassColors.greyBD,
+                        )
                       ),
-                      borderRadius: BorderRadius.circular(8.0)
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                child: TextFormField(
-                  enabled: false,
-                  readOnly: true,
-                  initialValue: Get.arguments['email'] ?? 'email',
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderSide: const BorderSide(
-                        color: MyPassColors.greyBD,
-                        strokeAlign: BorderSide.strokeAlignCenter,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 8),
+                        child: Text(
+                          profileControl.user.value,
+                          style: MyPassFonts.style.kLabelSmall(context,
+                            color: MyPassColors.greyBD
+                          ),
+                        ),
                       ),
-                      borderRadius: BorderRadius.circular(8.0)
-                    ),
-                  )
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                child: TextFormField(
-                  readOnly: true,
-                  initialValue: Get.arguments['name'] ??'Nome do usuário',
-                  decoration: InputDecoration(
-                    suffixIcon: IconButton(
-                      onPressed: () {
-                        Get.toNamed('/changeData', parameters: { "AppBarTitle": 'nome' });
-                      },
-                      icon: const Icon(
-                        Icons.mode_edit,
-                        size: 22,
-                        color: MyPassColors.greyDarker,
-                      )
-                    ),
-                    hintStyle: MyPassFonts.style.kLabelSmall(context, color: const Color.fromARGB(73, 0, 0, 0)),
-                    border: OutlineInputBorder(
-                      borderSide: const BorderSide(
-                        color: MyPassColors.greyBD,
-                        strokeAlign: BorderSide.strokeAlignCenter,
-                      ),
-                      borderRadius: BorderRadius.circular(8.0)
-                    ),
-                  )
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                child: TextFormField(
-                  readOnly: true,
-                  initialValue: '12345678',
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    suffixIcon: IconButton(
-                      onPressed: (){},
-                      icon: const Icon(
-                        Icons.mode_edit,
-                        size: 22,
-                        color: MyPassColors.greyDarker
-                      )
-                    ),
-                    hintStyle: MyPassFonts.style.kLabelSmall(context, color: const Color.fromARGB(73, 0, 0, 0)),
-                    border: OutlineInputBorder(
-                      borderSide: const BorderSide(
-                        color: MyPassColors.greyBD,
-                        strokeAlign: BorderSide.strokeAlignCenter,
-                      ),
-                      borderRadius: BorderRadius.circular(8.0)
-                    ),
-                  )
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                child: OutlinedButton(
-                  onPressed: () => Get.toNamed('/deleteAccount'),
-                  style: OutlinedButton.styleFrom(
-                    side: const BorderSide(
-                      color: MyPassColors.redAlert,
-                    ),
-                    backgroundColor: Colors.white,
-                    fixedSize: Size(
-                      MediaQuery.of(context).size.width,
-                      56.0,
-                    ),
-                    shape: LinearBorder.bottom(
-                      size: 0.4,
-                      alignment: BorderSide.strokeAlignCenter,
                     )
                   ),
-                  child: Text(
-                    'Encerrar conta',
-                    style: MyPassFonts.style.kLabelMedium(context,
-                      color: MyPassColors.redAlert
-                    ),
+                ),
+                Obx(() => 
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    child: Container(
+                      alignment: Alignment.centerLeft,
+                      height: 56,
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.all(Radius.circular(8)),
+                        border: Border.all(
+                          width: 1,
+                          color: MyPassColors.greyBD,
+                        )
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 8),
+                        child: Text(
+                          profileControl.email.value,
+                          style: MyPassFonts.style.kLabelSmall(context,
+                            color: MyPassColors.greyBD
+                          ),
+                        ),
+                      ),
+                    )
                   ),
                 ),
-              ),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    GestureDetector(
-                      onTap: () async {
-                        bool logout = await profileControl.logOut();
-                        if ( logout ){
-                          Get.offAllNamed('/signIn');
-                        }
-                      },
-                      child: const Padding(
-                        padding:  EdgeInsets.symmetric(vertical: 16.0),
+                Obx(() => 
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    child: Container(
+                      alignment: Alignment.centerLeft,
+                      height: 56,
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.all(Radius.circular(8)),
+                        border: Border.all(
+                          width: 1,
+                          color: MyPassColors.greyDarker,
+                        )
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 8),
                         child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              'Sair',
-                              style: TextStyle(
-                                color: MyPassColors.greyDarker,
-                                fontWeight: FontWeight.bold,
+                              profileControl.name.value,
+                              style: MyPassFonts.style.kLabelSmall(context,
+                                color: MyPassColors.greyDarker
                               ),
                             ),
-                            Padding(
-                              padding: EdgeInsets.only(left: 8),
-                              child: Icon(
-                                Icons.logout_rounded,
-                                color: MyPassColors.greyDarker,
+                            IconButton(
+                              onPressed: (){
+                                Get.toNamed('/changeData', parameters: { "AppBarTitle": 'nome' });
+                              },
+                              icon: const Icon(
+                                Icons.mode_edit,
                                 size: 22,
-                              ),
+                                color: MyPassColors.greyDarker,
+                              )
                             )
                           ],
                         ),
                       ),
+                    )
+                  ),
+                ),
+                Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    child: Container(
+                      alignment: Alignment.centerLeft,
+                      height: 56,
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.all(Radius.circular(8)),
+                        border: Border.all(
+                          width: 1,
+                          color: MyPassColors.greyDarker,
+                        )
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 8),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              '********',
+                              style: MyPassFonts.style.kLabelSmall(context,
+                                color: MyPassColors.greyDarker
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: (){
+                                Get.toNamed('/changeData', parameters: { "AppBarTitle": 'senha' });
+                              },
+                              icon: const Icon(
+                                Icons.mode_edit,
+                                size: 22,
+                                color: MyPassColors.greyDarker,
+                              )
+                            )
+                          ],
+                        ),
+                      ),
+                    )
+                  ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: OutlinedButton(
+                    onPressed: () => Get.toNamed('/deleteAccount'),
+                    style: OutlinedButton.styleFrom(
+                      side: const BorderSide(
+                        color: MyPassColors.redAlert,
+                      ),
+                      backgroundColor: Colors.white,
+                      fixedSize: Size(
+                        MediaQuery.of(context).size.width,
+                        56.0,
+                      ),
+                      shape: LinearBorder.bottom(
+                        size: 0.4,
+                        alignment: BorderSide.strokeAlignCenter,
+                      )
                     ),
-                    Text(
-                      'v1.0.0',
-                      style: MyPassFonts.style.kLabelSmall(context,
-                        color: MyPassColors.greyBD 
+                    child: Text(
+                      'Encerrar conta',
+                      style: MyPassFonts.style.kLabelMedium(context,
+                        color: MyPassColors.redAlert
                       ),
                     ),
-                  ],
+                  ),
+                ),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      GestureDetector(
+                        onTap: () async {
+                          bool logout = await profileControl.logOut();
+                          if ( logout ){
+                            Get.offAllNamed('/signIn');
+                          }
+                        },
+                        child: const Padding(
+                          padding:  EdgeInsets.symmetric(vertical: 16.0),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Sair',
+                                style: TextStyle(
+                                  color: MyPassColors.greyDarker,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(left: 8),
+                                child: Icon(
+                                  Icons.logout_rounded,
+                                  color: MyPassColors.greyDarker,
+                                  size: 22,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      Text(
+                        'v1.0.0',
+                        style: MyPassFonts.style.kLabelSmall(context,
+                          color: MyPassColors.greyBD 
+                        ),
+                      ),
+                    ],
+                  )
                 )
-              )
-            ],
+              ],
+            ),
           ),
         ),
       )
