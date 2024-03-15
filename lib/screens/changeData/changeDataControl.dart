@@ -4,23 +4,19 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mypass/screens/profile/profileControl.dart';
 import 'package:mypass/services/fetchData.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class ChangeDataControl extends GetxController {
   var validValue = false.obs;
 
   var loadRequest = false.obs;
 
-  Future<bool> changeData( String data ) async {
+  Future<bool> changeName( String data ) async {
     ProfileControl profileControl = Get.find();
     loadRequest(true);
-    try {
-      final SharedPreferences sharedPrefs = await SharedPreferences.getInstance();
-      String? token = sharedPrefs.getString('token');
 
+    try {
       dynamic resp = await fetchData(
         Requests.updateUser,
-        token: token!,
         body: {
           "name": data,
         }
@@ -32,7 +28,6 @@ class ChangeDataControl extends GetxController {
         case 200:
           profileControl.name(data);
           profileControl.update();
-          // loadRequest(false);
           return true;
         default:
           return false;
