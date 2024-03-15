@@ -24,17 +24,11 @@ class ProfileControl extends GetxController {
 
   Future<bool> getProfile() async {
     try {
-      final SharedPreferences sharedPrefs = await SharedPreferences.getInstance();
-      String? token = sharedPrefs.getString('token');
-
       dynamic result = await fetchData(
         Requests.getUser,
-        token: token!
       );
 
       var respBody = jsonDecode(result.body) as Map<String, dynamic>;
-      // User usr = User.fromJson(respBody);
-      // debugPrint(respBody['name']);
 
       switch ( result.statusCode ) {
         case 200:
