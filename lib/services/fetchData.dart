@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/foundation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // See API doc.: https://app.swaggerhub.com/apis-docs/DAVIDEMANOEL706/MyPass/1.0.0
 
@@ -40,11 +41,11 @@ enum Requests {
   const Requests(this.req, this.method);
 }
 
-Future<dynamic> fetchData( Requests req, { String? params, dynamic body, String? token }) async {
+Future<dynamic> fetchData( Requests req, { String? params, dynamic body }) async {
   const String baseUrl = 'https://mypass-api.onrender.com/v1';
 
   String endpoint = baseUrl + req.req + (params ?? "");
-  var header = getHeaders( req, token: token );
+  var header = await getHeaders( req );
 
   dynamic response;
   try {
@@ -72,7 +73,8 @@ Future<dynamic> fetchData( Requests req, { String? params, dynamic body, String?
   }
 }
 
-Map<String, String>? getHeaders(Requests req, { String? token }) {
+Future<Map<String, String>> getHeaders( Requests req ) async {
+
   switch ( req ) {
     case Requests.signIn || Requests.signUp || Requests.forgotPass || Requests.resetPass:
       return
@@ -81,6 +83,8 @@ Map<String, String>? getHeaders(Requests req, { String? token }) {
           "accept": "application/json",
         };
     default:
+      final SharedPreferences sharedPrefs = await SharedPreferences.getInstance();
+      String? token = sharedPrefs.getString('token');
       return
         { 
           "content-type": "application/json",
