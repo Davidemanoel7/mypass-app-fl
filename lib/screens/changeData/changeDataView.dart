@@ -100,7 +100,7 @@ class ChangeDataView extends StatelessWidget {
                           ElevatedButton(
                             onPressed: () async {
                               String data = dataEditControl.value.text;
-                              bool result = await changeDataControl.changeData( data );
+                              bool result = await changeDataControl.changeName( data );
                               if ( result == true ) {
                                 dataEditControl.clear();
                                 Get.back();
