@@ -150,7 +150,7 @@ class ProfileView extends StatelessWidget {
                             ),
                             IconButton(
                               onPressed: (){
-                                Get.toNamed('/changeData', parameters: { "AppBarTitle": 'senha' });
+                                debugPrint('Ir para tela de mudar tenha');
                               },
                               icon: const Icon(
                                 Icons.mode_edit,
