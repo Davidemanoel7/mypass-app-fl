@@ -49,6 +49,8 @@ class SignInControl extends GetxController{
 
           userType = RxString(jwt.payload['userType']);
 
+          await sharedPrefs.setString('email', email);
+
           // store token on cache
           token = RxString(jwt.toString());
           await sharedPrefs.setString( 'token', auth.token! );

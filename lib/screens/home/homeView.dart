@@ -20,7 +20,7 @@ class HomeView extends StatelessWidget {
             () => homeControll.userName.value != ''
             ?
               Text(
-                'Hi, ${homeControll.userName}',
+                'Olá, ${homeControll.userName}',
                 style: MyPassFonts.style.kLabelMedium(context,
                   color: MyPassColors.black1B,
                   fontWeight: FontWeight.w700
@@ -28,7 +28,7 @@ class HomeView extends StatelessWidget {
               )
             :
               Text(
-                'Hi, ',
+                'Olá, ',
                 style: MyPassFonts.style.kLabelMedium(context,
                   color: MyPassColors.black1B,
                   fontWeight: FontWeight.w700
@@ -40,7 +40,13 @@ class HomeView extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(right: 24),
               child: IconButton(
-                onPressed: () => debugPrint('Ir para /account'),
+                onPressed: () {
+                  Get.toNamed('/profile', arguments: {
+                    'user': homeControll.userName.value,
+                    'userID': homeControll.userId.value,
+                    'email': homeControll.email.value,
+                  });
+                },
                 icon: const Icon(
                   Icons.menu,
                   color: MyPassColors.purpleLight,

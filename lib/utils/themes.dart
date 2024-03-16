@@ -35,19 +35,19 @@ class MyPassFonts {
       Theme.of(context)
           .textTheme
           .labelLarge
-          ?.copyWith(fontWeight: fontWeight, fontSize: 16, color: color);
+          ?.copyWith(fontWeight: fontWeight, fontSize: 18, color: color);
 
   TextStyle? kLabelMedium(BuildContext context,
           {Color color = MyPassColors.black1B, FontWeight fontWeight = FontWeight.normal}) =>
       Theme.of(context)
           .textTheme
           .labelMedium
-          ?.copyWith(fontWeight: fontWeight, fontSize: 14, color: color);
+          ?.copyWith(fontWeight: fontWeight, fontSize: 16, color: color);
 
   TextStyle? kLabelSmall(BuildContext context,
           {Color color = MyPassColors.greyDarker, FontWeight fontWeight = FontWeight.normal}) =>
       Theme.of(context)
           .textTheme
           .labelMedium
-          ?.copyWith(fontWeight: fontWeight, fontSize: 12, color: color);
+          ?.copyWith(fontWeight: fontWeight, fontSize: 14, color: color);
 }
