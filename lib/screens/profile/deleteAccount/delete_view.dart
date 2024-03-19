@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mypass/screens/profile/deleteAccount/delete_control.dart';
@@ -134,147 +132,114 @@ class DeleteView extends StatelessWidget {
                                 () async {
                                   Map<String,dynamic> result = await deleteControll.checkSecurity( passEditControl.value.text );
                                   if ( result['auth']){
-                                    Get.dialog(
-                                      Center(
-                                        child: BackdropFilter(
-                                          filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
-                                          child: Container(
-                                            width: MediaQuery.of(context).size.width * 0.65,
-                                            height: MediaQuery.of(context).size.height * 0.25,
-                                            padding: const EdgeInsets.all(16),
-                                            decoration: BoxDecoration(
-                                              gradient: LinearGradient(
-                                                colors: [
-                                                  MyPassColors.whiteF0,
-                                                  MyPassColors.whiteF0.withOpacity(0.9),
-                                                ],
-                                                begin: AlignmentDirectional.topStart,
-                                                end: AlignmentDirectional.bottomEnd,
-                                              ),
-                                              borderRadius: const BorderRadius.all(Radius.circular(16)),
-                                              border: Border.all(
-                                                width: 1,
-                                                color: MyPassColors.blueLight.withOpacity(0.2)
-                                              )
-                                            ),
-                                            child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.center,
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                  'Cuidado! Esta ação é irreversível',
-                                                  style: MyPassFonts.style.kTitleMedium(context,
-                                                    color: MyPassColors.purpleLight,
-                                                    fontWeight: FontWeight.bold
-                                                  ),
-                                                ),
-                                                Padding(
-                                                  padding: const EdgeInsets.only(top: 8, bottom: 16),
-                                                  child: Text(
-                                                    'Esta ação apagará todos os seus dados. Deseja mesmo continuar?',
-                                                    style: MyPassFonts.style.kLabelMedium(context,
-                                                      color: MyPassColors.black1B,
-                                                    ),
-                                                    textAlign: TextAlign.justify,
-                                                  ),
-                                                ),
-                                                Row(
-                                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                                  mainAxisAlignment: MainAxisAlignment.end,
-                                                  children: [
-                                                    TextButton(
-                                                      onPressed: () => Get.back(),
-                                                      child: Text(
-                                                        'cancelar',
-                                                        style: MyPassFonts.style.kTitleLarge(context,
-                                                          color: MyPassColors.greyBD,
-                                                          fontSize: 16
-                                                        ),
-                                                        textAlign: TextAlign.center,
-                                                      ),
-                                                    ),
-                                                    TextButton(
-                                                        onPressed: () async {
-                                                          bool result = await deleteControll.deleteAccount();
-                                                          if ( result ) {
-                                                            Get.snackbar(
-                                                              "",
-                                                              "",
-                                                              titleText: Text(
-                                                                'Conta excluída com sucesso 😔',
-                                                                style: MyPassFonts.style.kLabelLarge(context,
-                                                                  fontWeight: FontWeight.bold,
-                                                                  color: MyPassColors.purpleLight,
-                                                                ),
-                                                              ),
-                                                              messageText: Text(
-                                                                'Sua conta foi excluída da base de dados... Até a próxima 😆',
-                                                                style: MyPassFonts.style.kLabelSmall(context,
-                                                                  fontWeight: FontWeight.w400,
-                                                                  color: MyPassColors.black1B
-                                                                ),
-                                                              ),
-                                                              colorText: MyPassColors.black1B,
-                                                              leftBarIndicatorColor: MyPassColors.redAlert,
-                                                              animationDuration: const Duration( seconds: 1 ),
-                                                              backgroundColor: Colors.white,
-                                                              snackPosition: SnackPosition.TOP,
-                                                              borderWidth: 2,
-                                                              borderRadius: 16,
-                                                              borderColor: MyPassColors.whiteF0,
-                                                              isDismissible: true,
-                                                              dismissDirection: DismissDirection.horizontal,
-                                                              duration: const Duration( seconds: 4 ),
-                                                              forwardAnimationCurve: Curves.easeInOutQuad,
-                                                            );
-                                                          } else {
-                                                            Get.snackbar(
-                                                              "",
-                                                              "",
-                                                              titleText: Text(
-                                                                'Oops',
-                                                                style: MyPassFonts.style.kLabelLarge(context,
-                                                                  fontWeight: FontWeight.bold,
-                                                                  color: MyPassColors.redAlert,
-                                                                ),
-                                                              ),
-                                                              messageText: Text(
-                                                                'Algo de errado aconteceu...',
-                                                                style: MyPassFonts.style.kLabelSmall(context,
-                                                                  fontWeight: FontWeight.w400,
-                                                                  color: MyPassColors.black1B
-                                                                ),
-                                                              ),
-                                                              colorText: MyPassColors.black1B,
-                                                              leftBarIndicatorColor: MyPassColors.redAlert,
-                                                              animationDuration: const Duration( seconds: 1 ),
-                                                              backgroundColor: Colors.white,
-                                                              snackPosition: SnackPosition.TOP,
-                                                              borderWidth: 2,
-                                                              borderRadius: 16,
-                                                              borderColor: MyPassColors.whiteF0,
-                                                              isDismissible: true,
-                                                              dismissDirection: DismissDirection.horizontal,
-                                                              duration: const Duration( seconds: 4 ),
-                                                              forwardAnimationCurve: Curves.easeInOutQuad,
-                                                            );
-                                                          }
-                                                        },
-                                                        child: Text(
-                                                          'encerrar',
-                                                          style: MyPassFonts.style.kTitleLarge(context,
-                                                            color: MyPassColors.redAlert,
-                                                            fontSize: 16
-                                                          ),
-                                                          textAlign: TextAlign.center,
-                                                        ),
-                                                      ),
-                                                  ],
-                                                )
-                                              ],
-                                            ),     
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) => AlertDialog(
+                                        surfaceTintColor: MyPassColors.whiteF0,
+                                        title: Text(
+                                          'Cuidado! Esta ação é irreversível',
+                                          style: MyPassFonts.style.kTitleMedium(context,
+                                            color: MyPassColors.redAlert,
+                                            fontWeight: FontWeight.bold
                                           ),
                                         ),
+                                        content: Text(
+                                          'Esta ação apagará todos os seus dados. Deseja mesmo continuar?',
+                                          style: MyPassFonts.style.kLabelMedium(context,
+                                            color: MyPassColors.black1B,
+                                          ),
+                                          textAlign: TextAlign.justify,
+                                        ),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () => Get.back(),
+                                            child: Text(
+                                              'cancelar',
+                                              style: MyPassFonts.style.kTitleLarge(context,
+                                                color: MyPassColors.greyBD,
+                                                fontSize: 16
+                                              ),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          ),
+                                          TextButton(
+                                              onPressed: () async {
+                                                bool result = await deleteControll.deleteAccount();
+                                                if ( result ) {
+                                                  Get.snackbar(
+                                                    "",
+                                                    "",
+                                                    titleText: Text(
+                                                      'Conta excluída com sucesso 😔',
+                                                      style: MyPassFonts.style.kLabelLarge(context,
+                                                        fontWeight: FontWeight.bold,
+                                                        color: MyPassColors.purpleLight,
+                                                      ),
+                                                    ),
+                                                    messageText: Text(
+                                                      'Sua conta foi excluída da base de dados... Até a próxima 😆',
+                                                      style: MyPassFonts.style.kLabelSmall(context,
+                                                        fontWeight: FontWeight.w400,
+                                                        color: MyPassColors.black1B
+                                                      ),
+                                                    ),
+                                                    colorText: MyPassColors.black1B,
+                                                    leftBarIndicatorColor: MyPassColors.redAlert,
+                                                    animationDuration: const Duration( seconds: 1 ),
+                                                    backgroundColor: Colors.white,
+                                                    snackPosition: SnackPosition.TOP,
+                                                    borderWidth: 2,
+                                                    borderRadius: 16,
+                                                    borderColor: MyPassColors.whiteF0,
+                                                    isDismissible: true,
+                                                    dismissDirection: DismissDirection.horizontal,
+                                                    duration: const Duration( seconds: 4 ),
+                                                    forwardAnimationCurve: Curves.easeInOutQuad,
+                                                  );
+                                                  Get.offAllNamed('/signIn');
+                                                } else {
+                                                  Get.snackbar(
+                                                    "",
+                                                    "",
+                                                    titleText: Text(
+                                                      'Oops',
+                                                      style: MyPassFonts.style.kLabelLarge(context,
+                                                        fontWeight: FontWeight.bold,
+                                                        color: MyPassColors.redAlert,
+                                                      ),
+                                                    ),
+                                                    messageText: Text(
+                                                      'Algo de errado aconteceu...',
+                                                      style: MyPassFonts.style.kLabelSmall(context,
+                                                        fontWeight: FontWeight.w400,
+                                                        color: MyPassColors.black1B
+                                                      ),
+                                                    ),
+                                                    colorText: MyPassColors.black1B,
+                                                    leftBarIndicatorColor: MyPassColors.redAlert,
+                                                    animationDuration: const Duration( seconds: 1 ),
+                                                    backgroundColor: Colors.white,
+                                                    snackPosition: SnackPosition.TOP,
+                                                    borderWidth: 2,
+                                                    borderRadius: 16,
+                                                    borderColor: MyPassColors.whiteF0,
+                                                    isDismissible: true,
+                                                    dismissDirection: DismissDirection.horizontal,
+                                                    duration: const Duration( seconds: 4 ),
+                                                    forwardAnimationCurve: Curves.easeInOutQuad,
+                                                  );
+                                                }
+                                              },
+                                              child: Text(
+                                                'encerrar',
+                                                style: MyPassFonts.style.kTitleLarge(context,
+                                                  color: MyPassColors.redAlert,
+                                                  fontSize: 16
+                                                ),
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            ),
+                                        ],
                                       ),
                                     );
                                   } else {
