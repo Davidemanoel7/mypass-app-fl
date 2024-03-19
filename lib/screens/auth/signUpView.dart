@@ -223,16 +223,6 @@ class SignUpView extends StatelessWidget{
                       ),
                     ),
                   ),
-                  GestureDetector(
-                    onTap: () => Get.back(),
-                    child: Text(
-                      'Já tenho conta',
-                      style: MyPassFonts.style.kLabelSmall(context,
-                        color: MyPassColors.blueLight,
-                        fontWeight: FontWeight.w600
-                      ),
-                    ),
-                  ),
                   Obx(() => signUpControl.signUpLoad.value ?
                     const Padding(
                       padding: EdgeInsets.symmetric(vertical: 24),
@@ -361,7 +351,17 @@ class SignUpView extends StatelessWidget{
                         ) 
                       )
                     ),
-                  )
+                  ),
+                  GestureDetector(
+                    onTap: () => Get.back(),
+                    child: Text(
+                      'Já tenho conta',
+                      style: MyPassFonts.style.kLabelSmall(context,
+                        color: MyPassColors.blueLight,
+                        fontWeight: FontWeight.w600
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
