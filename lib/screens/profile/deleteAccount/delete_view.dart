@@ -164,8 +164,8 @@ class DeleteView extends StatelessWidget {
                                           ),
                                           TextButton(
                                               onPressed: () async {
-                                                bool result = await deleteControll.deleteAccount();
-                                                if ( result ) {
+                                                dynamic result = await deleteControll.deleteAccount();
+                                                if ( result['deleted'] == true ) {
                                                   Get.snackbar(
                                                     "",
                                                     "",
@@ -209,7 +209,7 @@ class DeleteView extends StatelessWidget {
                                                       ),
                                                     ),
                                                     messageText: Text(
-                                                      'Algo de errado aconteceu...',
+                                                      '${result['message']}',
                                                       style: MyPassFonts.style.kLabelSmall(context,
                                                         fontWeight: FontWeight.w400,
                                                         color: MyPassColors.black1B
@@ -247,7 +247,7 @@ class DeleteView extends StatelessWidget {
                                       "Senha incorreta",
                                       "",
                                       titleText: Text(
-                                        'Senha incorreta',
+                                        'Oops!',
                                         style: MyPassFonts.style.kLabelLarge(context,
                                           fontWeight: FontWeight.bold,
                                           color: MyPassColors.redAlert,

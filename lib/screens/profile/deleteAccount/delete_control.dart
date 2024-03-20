@@ -48,16 +48,38 @@ class DeleteControll extends GetxController {
     }
   }
 
-  Future<bool> deleteAccount() async {
-    dynamic resp = await fetchData(
-      Requests.deleteUser,
-    );
-    profileC.logOut();
-    switch( resp.statusCode ) {
-      case 200:
-        return true;
-      default:
-        return false;
+  Future<Map<String, dynamic>> deleteAccount() async {
+    try {
+      dynamic resp = await fetchData(
+        Requests.deleteUser,
+      );
+      profileC.logOut();
+      switch( resp.statusCode ) {
+        case 200:
+          return {
+            "deleted": true,
+          };
+        case 401:
+          return {
+            "deleted": false,
+            "message": 'Não foi possível completar a ação pois você não está autenticado(a).'
+          };
+        case 404:
+          return {
+            "deleted": false,
+            "message": 'Algo deu errado. Não foi possível encontrar seu perfil...'
+          };
+        default:
+          return {
+            "deleted": false
+          };
+      }
+    } catch (e) {
+      debugPrint('$e');
+      return {
+        "deleted": false,
+        "message": 'Algo deu errado. Tente novamente mais tarde!'
+      };
     }
   }
 
