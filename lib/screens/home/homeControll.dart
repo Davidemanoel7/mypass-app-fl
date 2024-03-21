@@ -14,7 +14,8 @@ class HomeControll extends GetxController {
 
   @override
   void onInit() async {
-    await getProfile();
+    bool user = await getProfile();
+    debugPrint('$user');
     super.onInit();
   }
 

@@ -16,24 +16,14 @@ class HomeView extends StatelessWidget {
           backgroundColor: Colors.transparent,
           elevation: 0,
           automaticallyImplyLeading: false,
-          title: Obx(
-            () => homeControll.userName.value != ''
-            ?
-              Text(
-                'Olá, ${homeControll.user}',
-                style: MyPassFonts.style.kLabelMedium(context,
-                  color: MyPassColors.black1B,
-                  fontWeight: FontWeight.w700
-                ),
-              )
-            :
-              Text(
-                'Olá, ',
-                style: MyPassFonts.style.kLabelMedium(context,
-                  color: MyPassColors.black1B,
-                  fontWeight: FontWeight.w700
-                ),
+          title: Obx(() => 
+            Text(
+              'Olá, ${homeControll.user.value}',
+              style: MyPassFonts.style.kLabelMedium(context,
+                color: MyPassColors.black1B,
+                fontWeight: FontWeight.w700
               ),
+            )
           ),
           centerTitle: true,
           actions: [
