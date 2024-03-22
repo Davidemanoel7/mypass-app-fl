@@ -132,7 +132,7 @@ class PasswordView extends StatelessWidget {
                       onChanged: ( bool value ) {
                         createPassControl.numbers(value);
                       },
-                      activeColor: MyPassColors.whiteF0,
+                      activeColor: MyPassColors.whiteF0.withOpacity(0.2),
                       activeTrackColor: MyPassColors.purpleLight,
                       inactiveThumbColor: MyPassColors.greyBD,
                       trackOutlineColor: getTrackBorderColor(),
@@ -158,7 +158,7 @@ class PasswordView extends StatelessWidget {
                       onChanged: ( bool value ) {
                         createPassControl.special(value);
                       },
-                      activeColor: MyPassColors.whiteF0,
+                      activeColor: MyPassColors.whiteF0.withOpacity(0.2),
                       activeTrackColor: MyPassColors.purpleLight,
                       inactiveThumbColor: MyPassColors.greyBD,
                       trackOutlineColor: getTrackBorderColor(),
@@ -184,7 +184,7 @@ class PasswordView extends StatelessWidget {
                       onChanged: ( bool value ) {
                         createPassControl.uppercase(value);
                       },
-                      activeColor: MyPassColors.whiteF0,
+                      activeColor: MyPassColors.whiteF0.withOpacity(0.2),
                       activeTrackColor: MyPassColors.purpleLight,
                       inactiveThumbColor: MyPassColors.greyBD,
                       trackOutlineColor: getTrackBorderColor(),
