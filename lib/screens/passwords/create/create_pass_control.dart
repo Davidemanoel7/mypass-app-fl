@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class CreatePassControl extends GetxController {
@@ -24,7 +23,6 @@ class CreatePassControl extends GetxController {
       newPass += pass[rand];
     }
 
-    debugPrint(newPass);
     return newPass;
   }
 }
