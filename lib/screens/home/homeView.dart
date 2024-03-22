@@ -64,7 +64,7 @@ class HomeView extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: GestureDetector(
-                  onTap:() => debugPrint('Criar senha'),
+                  onTap:() => Get.toNamed('/create/password'),
                   child: Container(
                     height: 92,
                     decoration: BoxDecoration(

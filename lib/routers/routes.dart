@@ -6,6 +6,7 @@ import 'package:mypass/screens/auth/signUpView.dart';
 import 'package:mypass/screens/changeData/changeDataView.dart';
 import 'package:mypass/screens/forgot/forgotView.dart';
 import 'package:mypass/screens/home/homeView.dart';
+import 'package:mypass/screens/passwords/create/create_pass_view.dart';
 import 'package:mypass/screens/profile/profileView.dart';
 
 import '../screens/onboard/onboard_view.dart';
@@ -53,4 +54,10 @@ appRoutes () => [
     transition: Transition.native,
     transitionDuration: const Duration( milliseconds: 500 ),
   ),
+  GetPage(
+    name: '/create/password',
+    page: () => PasswordView(),
+    transition: Transition.native,
+    transitionDuration: const Duration( milliseconds: 500 ),
+  )
 ];
