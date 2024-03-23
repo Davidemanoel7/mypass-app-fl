@@ -54,6 +54,7 @@ class PasswordView extends StatelessWidget {
         padding: const EdgeInsets.all(24.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 4),
@@ -76,6 +77,7 @@ class PasswordView extends StatelessWidget {
                   suffixIcon: IconButton(
                     onPressed: (){
                       passEditingControl.text = createPassControl.generatePass();
+                      createPassControl.pass(passEditingControl.text);
                     },
                     icon: const Icon(Icons.replay_rounded,
                       color: MyPassColors.blueLight,
@@ -88,6 +90,7 @@ class PasswordView extends StatelessWidget {
                     )
                   ),
                 ),
+                onChanged: ( value ) => createPassControl.pass(value),
               ),
             ),
             Padding(
@@ -197,28 +200,38 @@ class PasswordView extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  ElevatedButton(
-                    onPressed: () => Get.toNamed('/savePass', 
-                      arguments: {
-                        "pass": passEditingControl.text
-                      }
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: MyPassColors.purpleLight,
-                      alignment: Alignment.center,
-                      fixedSize: Size(
-                        MediaQuery.of(context).size.width,
-                        56.0
-                      ),
-                    ),
-                    child: const Text(
-                      'Salvar',
-                      style: TextStyle(
-                        color: MyPassColors.whiteF0,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold
-                      )
-                    ) 
+                  Obx( () =>
+                    ElevatedButton(
+                      onPressed: ( createPassControl.pass.value.length < 6 ) ? 
+                        null
+                      :
+                        () => Get.toNamed('/savePass', 
+                          arguments: {
+                            "pass": passEditingControl.text
+                          }
+                        ),
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: createPassControl.pass.value.length < 6 ?
+                            MyPassColors.greyBD
+                            :
+                            MyPassColors.purpleLight,
+                          alignment: Alignment.center,
+                          fixedSize: Size(
+                            MediaQuery.of(context).size.width,
+                            56.0
+                          ),
+                        ),
+                      child: Text(
+                        'Salvar',
+                        style: TextStyle(
+                          color: ( createPassControl.pass.value.length < 6 )
+                            ? MyPassColors.greyDarker
+                            : MyPassColors.whiteF0,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold
+                        )
+                      ) 
+                    )
                   )
                 ],
               )
