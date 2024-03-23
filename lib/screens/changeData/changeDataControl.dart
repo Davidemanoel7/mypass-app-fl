@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mypass/screens/home/homeControll.dart';
 import 'package:mypass/screens/profile/profileControl.dart';
 import 'package:mypass/services/fetchData.dart';
 
@@ -11,7 +12,8 @@ class ChangeDataControl extends GetxController {
   var loadRequest = false.obs;
 
   Future<bool> changeName( String data ) async {
-    ProfileControl profileControl = Get.find();
+    HomeControll homeControll = Get.find();
+    ProfileControl profileControll = Get.find();
     loadRequest(true);
 
     try {
@@ -26,8 +28,10 @@ class ChangeDataControl extends GetxController {
 
       switch ( resp.statusCode ) {
         case 200:
-          profileControl.name(data);
-          profileControl.update();
+          homeControll.update();
+          homeControll.userName(data);
+          profileControll.update();
+          profileControll.userName(data);
           return true;
         default:
           return false;

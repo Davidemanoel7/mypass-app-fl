@@ -16,24 +16,14 @@ class HomeView extends StatelessWidget {
           backgroundColor: Colors.transparent,
           elevation: 0,
           automaticallyImplyLeading: false,
-          title: Obx(
-            () => homeControll.userName.value != ''
-            ?
-              Text(
-                'Olá, ${homeControll.userName}',
-                style: MyPassFonts.style.kLabelMedium(context,
-                  color: MyPassColors.black1B,
-                  fontWeight: FontWeight.w700
-                ),
-              )
-            :
-              Text(
-                'Olá, ',
-                style: MyPassFonts.style.kLabelMedium(context,
-                  color: MyPassColors.black1B,
-                  fontWeight: FontWeight.w700
-                ),
+          title: Obx(() => 
+            Text(
+              'Olá, ${homeControll.user.value}',
+              style: MyPassFonts.style.kLabelMedium(context,
+                color: MyPassColors.black1B,
+                fontWeight: FontWeight.w700
               ),
+            )
           ),
           centerTitle: true,
           actions: [
@@ -41,11 +31,7 @@ class HomeView extends StatelessWidget {
               padding: const EdgeInsets.only(right: 24),
               child: IconButton(
                 onPressed: () {
-                  Get.toNamed('/profile', arguments: {
-                    'user': homeControll.userName.value,
-                    'userID': homeControll.userId.value,
-                    'email': homeControll.email.value,
-                  });
+                  Get.toNamed('/profile');
                 },
                 icon: const Icon(
                   Icons.menu,
