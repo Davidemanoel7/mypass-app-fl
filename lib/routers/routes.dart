@@ -6,9 +6,11 @@ import 'package:mypass/screens/auth/signUpView.dart';
 import 'package:mypass/screens/changeData/changeDataView.dart';
 import 'package:mypass/screens/forgot/forgotView.dart';
 import 'package:mypass/screens/home/homeView.dart';
+import 'package:mypass/screens/passwords/create/create_pass_view.dart';
+import 'package:mypass/screens/passwords/create/help_pass_view.dart';
+import 'package:mypass/screens/passwords/save/save_pass_view.dart';
 import 'package:mypass/screens/profile/deleteAccount/delete_view.dart';
 import 'package:mypass/screens/profile/profileView.dart';
-
 import '../screens/onboard/onboard_view.dart';
 
 appRoutes () => [
@@ -27,7 +29,7 @@ appRoutes () => [
   GetPage(
     name: '/home',
     page: () => HomeView(),
-    transition: Transition.native,
+    transition: Transition.downToUp,
     transitionDuration: const Duration( milliseconds: 500 ),
   ),
   GetPage(
@@ -45,13 +47,31 @@ appRoutes () => [
   GetPage(
     name: '/profile',
     page: () => ProfileView(),
-    transition: Transition.native,
+    transition: Transition.cupertino,
     transitionDuration: const Duration( milliseconds: 500 ),
   ),
   GetPage(
     name: '/changeData',
     page: () => ChangeDataView(),
-    transition: Transition.native,
+    transition: Transition.cupertino,
+    transitionDuration: const Duration( milliseconds: 500 ),
+  ),
+  GetPage(
+    name: '/create/password',
+    page: () => PasswordView(),
+    transition: Transition.cupertino,
+    transitionDuration: const Duration( milliseconds: 500 ),
+  ),
+  GetPage(
+    name: '/helpPass',
+    page: () => HelpPassView(),
+    transition: Transition.cupertino,
+    transitionDuration: const Duration( milliseconds: 500 ),
+  ),
+  GetPage(
+    name: '/savePass',
+    page: () => SavePassView(),
+    transition: Transition.cupertino,
     transitionDuration: const Duration( milliseconds: 500 ),
   ),
   GetPage(
