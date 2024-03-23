@@ -41,7 +41,7 @@ class PasswordView extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(right: 8.0),
             child: IconButton(
-              onPressed: (){},
+              onPressed: () => Get.toNamed('/helpPass'),
               icon: const Icon(
                 Icons.help_outline_rounded,
                 color: MyPassColors.greyBD,
@@ -198,7 +198,11 @@ class PasswordView extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   ElevatedButton(
-                    onPressed: () => debugPrint('Ir para próxima tela'),
+                    onPressed: () => Get.toNamed('/savePass', 
+                      arguments: {
+                        "pass": passEditingControl.text
+                      }
+                    ),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: MyPassColors.purpleLight,
                       alignment: Alignment.center,
