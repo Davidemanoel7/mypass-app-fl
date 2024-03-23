@@ -9,6 +9,8 @@ class CreatePassControl extends GetxController {
 
   RxDouble sliderValue = 6.0.obs;
 
+  var pass = ''.obs;
+
   String generatePass(){
     double len = sliderValue.value;
     var pass = 'abcdefghijklmnopqrstuvwxyz';
