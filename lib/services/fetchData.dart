@@ -1,6 +1,7 @@
 import 'dart:convert';
-import 'package:http/http.dart' as http;
+
 import 'package:flutter/foundation.dart';
+import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 // See API doc.: https://app.swaggerhub.com/apis-docs/DAVIDEMANOEL706/MyPass/1.0.0
@@ -18,7 +19,7 @@ enum Requests {
   signIn("/auth/signin/", HttpMethod.POST),
   forgotPass("/auth/forgotPass/", HttpMethod.PATCH),
   resetPass("/auth/resetPass/", HttpMethod.PATCH),
-  checkSecurity("/auth/checkSecurity/", HttpMethod.PATCH),
+  checkSecurity("/auth/checkSecurity/", HttpMethod.POST),
 
   //user endpoints
   signUp("/user/signup/", HttpMethod.POST),

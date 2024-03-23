@@ -103,7 +103,7 @@ class ProfileView extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              profileControl.name.value,
+                              profileControl.userName.value,
                               style: MyPassFonts.style.kLabelSmall(context,
                                 color: MyPassColors.greyDarker
                               ),
