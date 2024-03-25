@@ -22,18 +22,18 @@ class OnboardControl extends GetxController {
     if ( logged == null ) {
       debugPrint('Logged [NULL]: $logged');
       await sharedPrefs.setBool('authenticated', false);
-      logged = false;
+      logged = false; 
     }
 
     if ( onboarded == null ) {
       debugPrint('Onboarded [NULL]: $onboarded');
       await sharedPrefs.setBool('hasOnboard', false);
-      onboarded = false;
+      onboarded = false; 
     }
 
-    if ( onboarded == true && !logged ) {
+    if ( onboarded && !logged ) {
       Get.offAllNamed('/signIn');
-    } else if( onboarded == true && logged ) {
+    } else if( onboarded && logged ) {
       Get.offNamed('/home');
     }
 

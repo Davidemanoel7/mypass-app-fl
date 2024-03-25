@@ -18,6 +18,7 @@ class SignUpView extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
+    RxBool viewPass = false.obs;
     return(
       Scaffold(
         // extendBodyBehindAppBar: true,
@@ -55,7 +56,10 @@ class SignUpView extends StatelessWidget{
                       child: TextFormField(
                         controller: nomeEditControl,
                         decoration: InputDecoration(
-                          prefixIcon: const Icon( Icons.person_outline_sharp ),
+                          prefixIcon: const Icon(
+                            Icons.person_outline_sharp,
+                            color: MyPassColors.greyBD,
+                          ),
                           hintText: 'Digite seu nome completo',
                           hintStyle: MyPassFonts.style.kLabelSmall(context, color: const Color.fromARGB(73, 0, 0, 0)),
                           border: OutlineInputBorder(
@@ -103,7 +107,10 @@ class SignUpView extends StatelessWidget{
                         // backgroundColor: Colors.white10,
                         ),
                         decoration: InputDecoration(
-                          prefixIcon: const Icon( Icons.manage_accounts_sharp ),
+                          prefixIcon: const Icon(
+                            Icons.manage_accounts_sharp,
+                            color: MyPassColors.greyBD,
+                          ),
                           hintText: 'Digite um nome de usuário',
                           hintStyle: MyPassFonts.style.kLabelSmall(context, color: const Color.fromARGB(73, 0, 0, 0)),
                           border: OutlineInputBorder(
@@ -151,7 +158,10 @@ class SignUpView extends StatelessWidget{
                         // backgroundColor: Colors.white10,
                         ),
                         decoration: InputDecoration(
-                          prefixIcon: const Icon( Icons.email_outlined ),
+                          prefixIcon: const Icon(
+                            Icons.email_outlined,
+                            color: MyPassColors.greyBD,  
+                          ),
                           hintText: 'Digite seu email',
                           hintStyle: MyPassFonts.style.kLabelSmall(context, color: const Color.fromARGB(73, 0, 0, 0)),
                           border: OutlineInputBorder(
@@ -183,45 +193,60 @@ class SignUpView extends StatelessWidget{
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 12),
-                    child: Form(
-                      autovalidateMode: AutovalidateMode.always,
-                      child: TextFormField(
-                        clipBehavior: Clip.antiAlias,
-                        controller: senhaEditControl,
-                        style: const TextStyle(
-                          backgroundColor: Colors.white10,
-                        ),
-                        decoration: InputDecoration(
-                          prefixIcon: const Icon( Icons.lock_open_outlined ),
-                          hintText: 'Digite sua senha',
-                          hintStyle: MyPassFonts.style.kLabelSmall(context, color: const Color.fromARGB(73, 0, 0, 0)),
-                          border: OutlineInputBorder(
-                            borderSide: const BorderSide(
+                    child: Obx(() =>
+                      Form(
+                        autovalidateMode: AutovalidateMode.always,
+                        child: TextFormField(
+                          clipBehavior: Clip.antiAlias,
+                          controller: senhaEditControl,
+                          style: const TextStyle(
+                            backgroundColor: Colors.white10,
+                          ),
+                          decoration: InputDecoration(
+                            prefixIcon: const Icon(
+                              Icons.lock_open_outlined,
                               color: MyPassColors.greyBD,
-                              strokeAlign: BorderSide.strokeAlignCenter,
                             ),
-                            borderRadius: BorderRadius.circular(16.0)
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                              color: MyPassColors.purpleLight,
-                              width: 1.0
+                            suffixIcon: IconButton(
+                              onPressed: () => viewPass(!viewPass.value),
+                              icon: Icon(
+                                Icons.remove_red_eye_outlined,
+                                color: viewPass.value ?
+                                  MyPassColors.blueLight
+                                  :
+                                  MyPassColors.greyBD
+                              )
                             ),
-                            borderRadius: BorderRadius.circular(16.0),
+                            hintText: 'Digite sua senha',
+                            hintStyle: MyPassFonts.style.kLabelSmall(context, color: const Color.fromARGB(73, 0, 0, 0)),
+                            border: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                color: MyPassColors.greyBD,
+                                strokeAlign: BorderSide.strokeAlignCenter,
+                              ),
+                              borderRadius: BorderRadius.circular(16.0)
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                color: MyPassColors.purpleLight,
+                                width: 1.0
+                              ),
+                              borderRadius: BorderRadius.circular(16.0),
+                            ),
                           ),
+                          textInputAction: TextInputAction.done,
+                          obscureText: !viewPass.value,
+                          validator: (value) => validInput.validationMessage( ValidationType.senha, value! ),
+                          onChanged: (value) {
+                            if (RegExp(r'^[a-zA-Z0-9_!@#.$]{6,20}$').hasMatch(value)){
+                              signUpControl.isPassValid(true);
+                            } else {
+                              signUpControl.isPassValid(false);
+                            }
+                          },
                         ),
-                        textInputAction: TextInputAction.done,
-                        obscureText: true,
-                        validator: (value) => validInput.validationMessage( ValidationType.senha, value! ),
-                        onChanged: (value) {
-                          if (RegExp(r'^[a-zA-Z0-9_!@#.$]{6,20}$').hasMatch(value)){
-                            signUpControl.isPassValid(true);
-                          } else {
-                            signUpControl.isPassValid(false);
-                          }
-                        },
                       ),
-                    ),
+                    )
                   ),
                   Obx(() => signUpControl.signUpLoad.value ?
                     const Padding(
