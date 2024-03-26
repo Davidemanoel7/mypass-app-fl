@@ -206,7 +206,10 @@ class SavePassView extends StatelessWidget {
                             :
                             () async {
                               bool result = await savePassControll.savePassword(password);
-                              debugPrint('$result');
+                              debugPrint('SENHA SALVA');
+                              if (result){
+                                Get.toNamed('/savePassSuccess');
+                              }
                             }
                             ,
                             style: ElevatedButton.styleFrom(
