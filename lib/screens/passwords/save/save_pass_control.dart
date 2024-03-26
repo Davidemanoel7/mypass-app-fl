@@ -5,6 +5,7 @@ import 'package:mypass/services/fetchData.dart';
 class SavePassControll extends GetxController {
   RxString url = ''.obs;
   RxString description = ''.obs;
+  RxBool loadRequest = false.obs;
 
   Future<bool> savePassword( String pass) async {
     try {
@@ -14,10 +15,12 @@ class SavePassControll extends GetxController {
         "password": pass
       };
 
+      loadRequest(true);
       dynamic response = await fetchData(
         Requests.createPass,
         body: body
       );
+      loadRequest(false);
 
       switch ( response.statusCode ) {
         case 201:
