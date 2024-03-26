@@ -9,7 +9,6 @@ MyPass App é um aplicativo desenvolvido em Flutter/Dart que permite armazenar s
 
 
 ## Documentação :page_with_curl:
-
 Neste [swagger](https://app.swaggerhub.com/apis-docs/DAVIDEMANOEL706/MyPass/1.0.0) contém a documentação da API contendo as endpoints e os schemas.
 
 
@@ -62,6 +61,8 @@ Contribuições são bem-vindas! Se você deseja contribuir com o MyPass App, po
 6. Envie o Pull Request com as alterações.
 
 ## Telas :iphone:
+
+Todas as telas do App foram prototipadas no figma, seguinte [este design].(https://www.figma.com/file/gGubFSGqJNJ25NCYeCrdgg/RandomPassword?type=design&node-id=1-2&mode=design)
 
 
 
