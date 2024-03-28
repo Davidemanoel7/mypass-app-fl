@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:mypass/screens/splash/splash_view.dart';
 import 'package:mypass/utils/themes.dart';
 
 import '../../routers/routes.dart';
@@ -29,8 +30,9 @@ class AppStarter extends StatelessWidget {
       ),
       scrollBehavior: const MaterialScrollBehavior(),
       debugShowCheckedModeBanner: false,
-      initialRoute: '/onboard',
+      // initialRoute: '/onboard',
       getPages: appRoutes(),
+      home: SplashView(),
     );
   }
 }
