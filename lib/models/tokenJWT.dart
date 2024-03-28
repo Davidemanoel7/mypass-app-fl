@@ -1,21 +1,21 @@
 class Auth {
 
-  final String? token;
-  final String message;
+  final String? acessToken;
+  final String? refreshToken;
 
   Auth({
-    required this.token,
-    required this.message
+    required this.acessToken,
+    required this.refreshToken,
   });
 
   factory Auth.fromJson(Map<String, dynamic> json) {
     return switch (json) {
       {
-        'token': String token!,
-        'message': String message,
+        'acessToken': String acessToken,
+        'refreshToken': String refreshToken,
       } => Auth(
-        token: token,
-        message: message
+        acessToken: acessToken,
+        refreshToken: refreshToken
       ),
       _ => throw const FormatException('Failed to load json data')
     };
