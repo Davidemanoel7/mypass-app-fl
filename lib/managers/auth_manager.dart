@@ -6,7 +6,6 @@ import 'package:mypass/managers/cache_manager.dart';
 
 class AuthenticationManager extends GetxController with SharedPrefManager{
   final isLogged = false.obs;
-
   
   @override
   void onInit() {
