@@ -11,30 +11,29 @@ class AuthenticationManager extends GetxController with SharedPrefManager{
   final isLogged = false.obs;
   
   @override
-  void onInit() {
-    debugPrint('\t# Check login Status');
-    checkLoginStatus();
+  void onInit() async {
+    await checkLoginStatus();
     super.onInit();
+  }
+
+  Future<bool> login( String acessToken, String refreshToken) async {
+    await setItemFromCache('acessToken', TypeKey.String, acessToken );
+    await setItemFromCache('refreshToken', TypeKey.String, refreshToken );
+    await setItemFromCache('isAuth', TypeKey.bool, true );
+    isLogged(true);
+    return true;
   }
   
   Future<void> logout() async {
     isLogged.value = false;
     await removeToken('acessToken');
-    await removeToken('refreshtoken');
-  }
-
-  void login(String token, value) async {
-    isLogged.value = true;
-    await saveToken(token, value);
+    await removeToken('refreshToken');
+    await setItemFromCache('isAuth', TypeKey.bool, false );
+    debugPrint('Logout Successful');
   }
 
   Future<void> checkLoginStatus() async {
-    bool isAuth = await checkJwt();
-    if ( isAuth ) {
-      isLogged.value = true;
-    } else {
-      isLogged.value = false;
-    }
+    isLogged( await checkJwt() );
   }
 
   Future<bool> checkJwt() async {
@@ -68,20 +67,21 @@ class AuthenticationManager extends GetxController with SharedPrefManager{
   }
 
   Future<String> generateNewAcessToken( String refreshToken) async {
-    
     try {
       dynamic resp = await fetchData(
         Requests.getAcessToken,
         body: {
-          refreshToken: refreshToken
+          'refreshToken': refreshToken
         }
       );
-      debugPrint('${resp.body}');
 
       switch ( resp.statusCode ) {
         case 200:
-          var newAcessToken = jsonDecode(resp.body['acessToken']);
-          return newAcessToken as String;
+          Map<String, dynamic> respBody = jsonDecode(resp.body);
+          debugPrint(respBody['acessToken']);
+          await saveToken('acessToken', respBody['acessToken']);
+          // var newAcessToken = respBody;
+          return respBody['acessToken'] as String;
         case 401:
           return '';
         default:
