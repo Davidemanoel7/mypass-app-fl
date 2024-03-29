@@ -10,9 +10,11 @@ class SplashView extends StatelessWidget {
   final AuthenticationManager _authManager = Get.put(AuthenticationManager());
 
   Future<void> initializeSettings() async {
-    _authManager.checkLoginStatus();
+    await _authManager.checkLoginStatus();
+
     bool? onboarded = await _authManager.getOnboard();
     bool? logged = _authManager.isLogged.value;
+
 
     onboarded ??= false;
 
