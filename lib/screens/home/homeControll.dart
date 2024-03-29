@@ -2,9 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
-import 'package:mypass/managers/auth_manager.dart';
 import 'package:mypass/services/fetchData.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeControll extends GetxController {
   
@@ -16,20 +14,7 @@ class HomeControll extends GetxController {
   @override
   void onInit() async {
     bool user = await getProfile();
-    debugPrint('$user');
     super.onInit();
-  }
-
-  Future<bool> logOut () async {
-    try {
-      final AuthenticationManager authManager = Get.find<AuthenticationManager>();
-      await authManager.logout();
-      return true;
-
-    } catch (e) {
-      debugPrint('\nError: $e');
-      return false; 
-    }
   }
 
   Future<bool> getProfile() async {
