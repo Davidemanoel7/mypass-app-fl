@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mypass/managers/auth_manager.dart';
+import 'package:mypass/managers/cache_manager.dart';
 import 'package:mypass/screens/home/homeControll.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class ProfileControl extends GetxController {
+class ProfileControl extends GetxController with SharedPrefManager {
   
   var user = ''.obs;
   var email = ''.obs;
@@ -25,10 +27,10 @@ class ProfileControl extends GetxController {
 
   Future<bool> logOut () async {
     try {
-      final SharedPreferences sharedPrefs = await SharedPreferences.getInstance();
-      await sharedPrefs.setBool('authenticated', false);
-      await sharedPrefs.setString('token', '');
+      final AuthenticationManager authManager = Get.find<AuthenticationManager>();
+      await authManager.logout();
       return true;
+
     } catch (e) {
       debugPrint('\nError: $e');
       return false; 

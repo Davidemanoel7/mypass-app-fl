@@ -1,32 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mypass/screens/onboard/onboard_controll.dart';
+import 'package:mypass/managers/cache_manager.dart';
 import 'package:mypass/utils/themes.dart';
 
 
-class OnboardView extends StatelessWidget {
+class OnboardView extends StatelessWidget with SharedPrefManager {
   OnboardView({super.key});
 
-  final OnboardControl _onboardControl = Get.put(OnboardControl());
-  
   @override
   Widget build(BuildContext context) {
+    RxInt pageInd = 1.obs;
     return Scaffold(
         body: Padding(
           padding: const EdgeInsetsDirectional.all(24),
           child: Obx(
-          () => 
+          () =>
             Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                changePage(_onboardControl.pageIndex.value),
+                changePage(pageInd.value),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    _onboardControl.pageIndex.value == 1 ?
+                    pageInd.value == 1 ?
                     GestureDetector(
                       onTap: () {
-                        _onboardControl.setOnboard();
+                        setOnboard();
                         Get.toNamed('/signIn');
                       },
                       child: const Text(
@@ -38,18 +37,18 @@ class OnboardView extends StatelessWidget {
                       ),
                     )
                     :
-                    const SizedBox( width: 12,),
+                    const SizedBox( width: 12),
 
                     Padding(
                       padding: EdgeInsets.symmetric(
                         horizontal: MediaQuery.of(context).size.width * 0.3 
                       ),
-                      child: ProgressIndicator(currentPage: _onboardControl.pageIndex.value),
+                      child: ProgressIndicator(currentPage: pageInd.value),
                     ),
                     
-                    _onboardControl.pageIndex.value < 3 ?
+                    pageInd.value < 3 ?
                     GestureDetector(
-                      onTap: () => _onboardControl.pageIndex.value += 1,
+                      onTap: () => pageInd.value += 1,
                       child: const Text(
                         'Next',
                         style: TextStyle(
@@ -57,11 +56,12 @@ class OnboardView extends StatelessWidget {
                           fontWeight: FontWeight.w700
                         ),
                       ),
-                    ) :
+                    )
+                    :
                     GestureDetector(
-                      onTap: () => {
-                        _onboardControl.setOnboard(),
-                        Get.offAllNamed('/signIn')
+                      onTap: () async {
+                        await setOnboard();
+                        Get.offAllNamed('/signIn');
                       },
                       child: const Text(
                         'Login',
@@ -117,8 +117,6 @@ Widget changePage( int index ){
         margin: const EdgeInsets.all(24),
         child: const Column(
           children: [
-            
-
             Padding(
               padding: EdgeInsets.symmetric( vertical: 24),
               child: Text(
