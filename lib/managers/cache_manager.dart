@@ -4,16 +4,16 @@ mixin SharedPrefManager {
 
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
-  Future<void> saveToken(String token) async {
-    await _prefs.then(( p )=> p.setString( CacheKey.TOKEN.toString(), token ));
+  Future<void> saveToken(String token, String value ) async {
+    await _prefs.then(( p )=> p.setString( token, value ));
   }
 
-  Future<String?> getToken() async {
-    return await _prefs.then(( p ) => p.getString( CacheKey.TOKEN.toString() ));
+  Future<String?> getToken( String token ) async {
+    return await _prefs.then(( p ) => p.getString( token ));
   }
 
-  Future<void> removeToken() async {
-    await _prefs.then((p) => p.remove( CacheKey.TOKEN.toString() ));
+  Future<void> removeToken( String token ) async {
+    await _prefs.then((p) => p.remove( token ));
   }
 
   Future<void> setOnboard() async {
