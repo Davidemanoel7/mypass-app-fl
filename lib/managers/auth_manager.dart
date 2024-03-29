@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:mypass/managers/cache_manager.dart';
+import 'package:mypass/services/fetchData.dart';
 
 class AuthenticationManager extends GetxController with SharedPrefManager{
   final isLogged = false.obs;
@@ -14,17 +17,18 @@ class AuthenticationManager extends GetxController with SharedPrefManager{
     super.onInit();
   }
   
-  void logout() {
+  Future<void> logout() async {
     isLogged.value = false;
-    removeToken();
+    await removeToken('acessToken');
+    await removeToken('refreshtoken');
   }
 
-  void login(String? token) async {
+  void login(String token, value) async {
     isLogged.value = true;
-    await saveToken(token!);
+    await saveToken(token, value);
   }
 
-  void checkLoginStatus() async {
+  Future<void> checkLoginStatus() async {
     bool isAuth = await checkJwt();
     if ( isAuth ) {
       isLogged.value = true;
@@ -35,21 +39,57 @@ class AuthenticationManager extends GetxController with SharedPrefManager{
 
   Future<bool> checkJwt() async {
     String? jwtKey = dotenv.env['JWT_KEY'];
-    String? token = await getToken();
+    String? acessToken = await getToken('acessToken');
+    String? refreshToken = await getToken('refreshToken');
+    
     try {
-      if (token == null ) {
+      if ( acessToken == null ) {
         return false;
       }
 
-      final jwt = JWT.verify(token, SecretKey(jwtKey!));
-      debugPrint('Paylodad: ${jwt.payload}');
+      final jwt = JWT.verify( acessToken, SecretKey(jwtKey!) );
       return true;
+
     } on JWTExpiredException {
-      debugPrint('JWT Expired. Fetch data to refresh token...');
+      if ( refreshToken != null ) {
+        debugPrint('Acess token expired. Try signIn using Refresh Token...');
+        String newToken = await generateNewAcessToken( refreshToken );
+
+        if ( newToken.isNotEmpty ) {
+          await saveToken('acessToken', newToken );
+          return true;
+        }
+      }
       return false;
     } on JWTException catch ( e ) {
       debugPrint(e.message);
       return false;
+    }
+  }
+
+  Future<String> generateNewAcessToken( String refreshToken) async {
+    
+    try {
+      dynamic resp = await fetchData(
+        Requests.getAcessToken,
+        body: {
+          refreshToken: refreshToken
+        }
+      );
+      debugPrint('${resp.body}');
+
+      switch ( resp.statusCode ) {
+        case 200:
+          var newAcessToken = jsonDecode(resp.body['acessToken']);
+          return newAcessToken as String;
+        case 401:
+          return '';
+        default:
+          return '';
+      }       
+    } catch (e) {
+      debugPrint('$e');
+      return '';
     }
   }
 }
