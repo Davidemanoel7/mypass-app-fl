@@ -20,6 +20,7 @@ enum Requests {
   forgotPass("/auth/forgotPass/", HttpMethod.PATCH),
   resetPass("/auth/resetPass/", HttpMethod.PATCH),
   checkSecurity("/auth/checkSecurity/", HttpMethod.POST),
+  getAcessToken("/auth/getAcesstoken", HttpMethod.POST),
 
   //user endpoints
   signUp("/user/signup/", HttpMethod.POST),
