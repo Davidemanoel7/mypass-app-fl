@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
+import 'package:mypass/managers/auth_manager.dart';
 import 'package:mypass/services/fetchData.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -21,11 +22,10 @@ class HomeControll extends GetxController {
 
   Future<bool> logOut () async {
     try {
-      final SharedPreferences sharedPrefs = await SharedPreferences.getInstance();
-      await sharedPrefs.setBool('authenticated', false);
-      await sharedPrefs.setString('token', '');
-
+      final AuthenticationManager authManager = Get.find<AuthenticationManager>();
+      await authManager.logout();
       return true;
+
     } catch (e) {
       debugPrint('\nError: $e');
       return false; 
