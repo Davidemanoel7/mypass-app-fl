@@ -9,6 +9,7 @@ class HomeControll extends GetxController {
   var user = ''.obs;
   var userName = ''.obs;
   var email = ''.obs;
+  var profile = ''.obs;
   var loadRequest = false.obs;
 
   @override
@@ -32,6 +33,7 @@ class HomeControll extends GetxController {
           user(respBody['user']);
           userName(respBody['name']);
           email(respBody['email']);
+          profile(respBody['profileImage']);
           return true;
         case 401:
           debugPrint('Auth failed or Unauthorized');
