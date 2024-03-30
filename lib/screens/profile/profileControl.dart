@@ -10,6 +10,7 @@ class ProfileControl extends GetxController with SharedPrefManager {
   var user = ''.obs;
   var email = ''.obs;
   var userName = ''.obs;
+  var profileImageUrl = ''.obs;
 
   var loadRequest = false.obs;
 
@@ -21,6 +22,7 @@ class ProfileControl extends GetxController with SharedPrefManager {
     user(homeControllData.user.value);
     userName(homeControllData.userName.value);
     email(homeControllData.email.value);
+    profileImageUrl(homeControllData.profile.value);
     loadRequest(false);
     super.onInit();
   }
