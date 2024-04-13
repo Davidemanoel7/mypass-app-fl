@@ -47,7 +47,7 @@ class ProfileView extends StatelessWidget {
                           bottom: 16.0,
                           right: 16.0,
                           child: IconButton.filled(
-                            onPressed: () => debugPrint('Editar imagem'),
+                            onPressed: () async => await profileControl.uploadImage(),
                             icon: const Icon(
                               Icons.camera_alt_outlined,
                               color: MyPassColors.whiteF0,
@@ -207,7 +207,7 @@ class ProfileView extends StatelessWidget {
                                   ),
                                 ),
                                 Padding(
-                                  padding: EdgeInsets.only(left: 8),
+                                  padding: const EdgeInsets.only(left: 8),
                                   child: Icon(
                                     Icons.logout_rounded,
                                     color: MyPassColors.redAlert.withOpacity(0.9),
