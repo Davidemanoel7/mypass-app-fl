@@ -28,10 +28,9 @@ class ChangeDataControl extends GetxController {
 
       switch ( resp.statusCode ) {
         case 200:
-          homeControll.update();
-          homeControll.userName(data);
-          profileControll.update();
-          profileControll.userName(data);
+          homeControll.usr.value.setName( data );
+          homeControll.usr.refresh();
+          profileControll.user.refresh();
           return true;
         default:
           return false;

@@ -1,13 +1,11 @@
 import 'dart:convert';
 
-import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mypass/managers/auth_manager.dart';
 import 'package:mypass/managers/cache_manager.dart';
 import 'package:mypass/models/tokenJWT.dart';
 import 'package:mypass/services/fetchData.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class SignInControl extends GetxController with SharedPrefManager {
 

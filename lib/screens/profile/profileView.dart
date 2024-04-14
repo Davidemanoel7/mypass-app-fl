@@ -26,66 +26,67 @@ class ProfileView extends StatelessWidget {
         ),
         body: SizedBox(
           child: Padding(
-            padding: const EdgeInsets.all(24.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Obx(() => 
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8),
-                    child: Container(
-                      alignment: Alignment.centerLeft,
-                      height: 56,
-                      width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.all(Radius.circular(8)),
-                        border: Border.all(
-                          width: 1,
-                          color: MyPassColors.greyBD,
-                        )
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 8),
-                        child: Text(
-                          profileControl.user.value,
-                          style: MyPassFonts.style.kLabelSmall(context,
-                            color: MyPassColors.greyBD
-                          ),
+            padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 24),
+            child: Obx(() => 
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(80.0),
+                    child: Stack(
+                      fit: StackFit.passthrough,
+                      children: [
+                        Image.network(
+                          profileControl.user.value.getProfileImage(),
+                          fit: BoxFit.cover,
+                          width: 160.0,
+                          height: 160.0,
                         ),
-                      ),
+                        Positioned(
+                          bottom: 16.0,
+                          right: 16.0,
+                          child: IconButton.filled(
+                            onPressed: () async => await profileControl.uploadImage(),
+                            icon: const Icon(
+                              Icons.camera_alt_outlined,
+                              color: MyPassColors.whiteF0,
+                              size: 24,
+                            ),
+                            splashColor: MyPassColors.blueLight,
+                          )
+                        )
+                      ],
                     )
                   ),
-                ),
-                Obx(() => 
                   Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8),
-                    child: Container(
-                      alignment: Alignment.centerLeft,
-                      height: 56,
-                      width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.all(Radius.circular(8)),
-                        border: Border.all(
-                          width: 1,
-                          color: MyPassColors.greyBD,
-                        )
+                    padding: const EdgeInsets.symmetric(vertical: 4),
+                    child: Text(
+                      profileControl.user.value.getUser(),
+                      style: MyPassFonts.style.kLabelMedium(context,
+                        color: MyPassColors.purpleLight,
+                        fontWeight: FontWeight.bold
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 8),
-                        child: Text(
-                          profileControl.email.value,
-                          style: MyPassFonts.style.kLabelSmall(context,
-                            color: MyPassColors.greyBD
-                          ),
-                        ),
-                      ),
-                    )
+                    ),
                   ),
-                ),
-                Obx(() => 
                   Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    padding: const EdgeInsets.only(bottom: 8),
+                    child: Text(
+                      profileControl.user.value.getEmail(),
+                      style: MyPassFonts.style.kLabelMedium(context,
+                        color: MyPassColors.greyBD,
+                        fontWeight: FontWeight.normal
+                      ),
+                    ),
+                  ),
+                  Divider(
+                    color: MyPassColors.greyBD.withOpacity(0.3),
+                    thickness: 1,
+                    indent: 8,
+                    endIndent: 8,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 16, bottom: 8),
                     child: Container(
                       alignment: Alignment.centerLeft,
                       height: 56,
@@ -103,7 +104,7 @@ class ProfileView extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              profileControl.userName.value,
+                              profileControl.user.value.getName(),
                               style: MyPassFonts.style.kLabelSmall(context,
                                 color: MyPassColors.greyDarker
                               ),
@@ -123,8 +124,7 @@ class ProfileView extends StatelessWidget {
                       ),
                     )
                   ),
-                ),
-                Padding(
+                  Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8),
                     child: Container(
                       alignment: Alignment.centerLeft,
@@ -163,80 +163,73 @@ class ProfileView extends StatelessWidget {
                       ),
                     )
                   ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                  child: OutlinedButton(
-                    onPressed: () => Get.toNamed('/deleteAccount'),
-                    style: OutlinedButton.styleFrom(
-                      side: const BorderSide(
-                        color: MyPassColors.redAlert,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    child: TextButton(
+                      onPressed: () => Get.toNamed('/deleteAccount'),
+                      child: const Text(
+                        'Encerrar conta',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.normal,
+                          color: MyPassColors.redAlert,
+                          decoration: TextDecoration.underline,
+                          decorationColor: MyPassColors.redAlert,
+                          decorationThickness: 1,
+                        ),
                       ),
-                      backgroundColor: Colors.white,
-                      fixedSize: Size(
-                        MediaQuery.of(context).size.width,
-                        56.0,
-                      ),
-                      shape: LinearBorder.bottom(
-                        size: 0.4,
-                        alignment: BorderSide.strokeAlignCenter,
-                      )
-                    ),
-                    child: Text(
-                      'Encerrar conta',
-                      style: MyPassFonts.style.kLabelMedium(context,
-                        color: MyPassColors.redAlert
-                      ),
-                    ),
+                    )
                   ),
-                ),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      GestureDetector(
-                        onTap: () async {
-                          bool logout = await profileControl.logOut();
-                          if ( logout ){
-                            Get.offAllNamed('/signIn');
-                          }
-                        },
-                        child: const Padding(
-                          padding:  EdgeInsets.symmetric(vertical: 16.0),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                'Sair',
-                                style: TextStyle(
-                                  color: MyPassColors.greyDarker,
-                                  fontWeight: FontWeight.bold,
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        TextButton(
+                          onPressed: () async {
+                            bool logout = await profileControl.logOut();
+                            if ( logout ){
+                              Get.offAllNamed('/signIn');
+                            }
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 16.0),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Sair',
+                                  style: TextStyle(
+                                    color: MyPassColors.redAlert.withOpacity(0.9),
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16
+                                  ),
                                 ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(left: 8),
-                                child: Icon(
-                                  Icons.logout_rounded,
-                                  color: MyPassColors.greyDarker,
-                                  size: 22,
-                                ),
-                              )
-                            ],
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 8),
+                                  child: Icon(
+                                    Icons.logout_rounded,
+                                    color: MyPassColors.redAlert.withOpacity(0.9),
+                                    size: 22,
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                      Text(
-                        'v1.0.0',
-                        style: MyPassFonts.style.kLabelSmall(context,
-                          color: MyPassColors.greyBD 
+                        Text(
+                          'v1.0.0',
+                          style: MyPassFonts.style.kLabelSmall(context,
+                            color: MyPassColors.greyBD 
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    )
                   )
-                )
-              ],
-            ),
+                ],
+              ),
+            )
           ),
         ),
       )
