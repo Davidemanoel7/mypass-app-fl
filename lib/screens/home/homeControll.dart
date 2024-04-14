@@ -13,7 +13,7 @@ class HomeControll extends GetxController {
   // var profile = ''.obs;
   var loadRequest = false.obs;
 
-  final usr =  User(email: '', name: '', user: '').obs;
+  Rx<User> usr =  User(email: '', name: '', user: '').obs;
 
   @override
   void onInit() async {
