@@ -38,7 +38,7 @@ class ProfileView extends StatelessWidget {
                       fit: StackFit.passthrough,
                       children: [
                         Image.network(
-                          profileControl.profileImageUrl.value,
+                          profileControl.user.value.getProfileImage(),
                           fit: BoxFit.cover,
                           width: 160.0,
                           height: 160.0,
@@ -62,7 +62,7 @@ class ProfileView extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 4),
                     child: Text(
-                      profileControl.user.value,
+                      profileControl.user.value.getUser(),
                       style: MyPassFonts.style.kLabelMedium(context,
                         color: MyPassColors.purpleLight,
                         fontWeight: FontWeight.bold
@@ -72,7 +72,7 @@ class ProfileView extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(bottom: 8),
                     child: Text(
-                      profileControl.email.value,
+                      profileControl.user.value.getEmail(),
                       style: MyPassFonts.style.kLabelMedium(context,
                         color: MyPassColors.greyBD,
                         fontWeight: FontWeight.normal
@@ -104,7 +104,7 @@ class ProfileView extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              profileControl.userName.value,
+                              profileControl.user.value.getName(),
                               style: MyPassFonts.style.kLabelSmall(context,
                                 color: MyPassColors.greyDarker
                               ),
