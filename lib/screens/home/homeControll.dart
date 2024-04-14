@@ -7,10 +7,6 @@ import 'package:mypass/services/fetchData.dart';
 
 class HomeControll extends GetxController {
   
-  // var user = ''.obs;
-  // var userName = ''.obs;
-  // var email = ''.obs;
-  // var profile = ''.obs;
   var loadRequest = false.obs;
 
   Rx<User> usr =  User(email: '', name: '', user: '').obs;
