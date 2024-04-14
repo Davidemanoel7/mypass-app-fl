@@ -2,19 +2,24 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
+import 'package:mypass/models/userModel.dart';
 import 'package:mypass/services/fetchData.dart';
 
 class HomeControll extends GetxController {
   
-  var user = ''.obs;
-  var userName = ''.obs;
-  var email = ''.obs;
-  var profile = ''.obs;
+  // var user = ''.obs;
+  // var userName = ''.obs;
+  // var email = ''.obs;
+  // var profile = ''.obs;
   var loadRequest = false.obs;
+
+  final usr =  User(email: '', name: '', user: '').obs;
 
   @override
   void onInit() async {
     bool user = await getProfile();
+    if ( user ) super.update();
+    debugPrint('chegou carai');
     super.onInit();
   }
 
@@ -30,10 +35,10 @@ class HomeControll extends GetxController {
 
       switch ( result.statusCode ) {
         case 200:
-          user(respBody['user']);
-          userName(respBody['name']);
-          email(respBody['email']);
-          profile(respBody['profileImage']);
+          usr.value.setName(respBody['name']);
+          usr.value.setUser(respBody['user']);
+          usr.value.setEmail(respBody['email']);
+          usr.value.setProfileImage(respBody['profileImage']);
           return true;
         case 401:
           debugPrint('Auth failed or Unauthorized');
