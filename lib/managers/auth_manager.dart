@@ -48,7 +48,7 @@ class AuthenticationManager extends GetxController with SharedPrefManager{
         return false;
       }
 
-      final jwt = JWT.verify( acessToken, SecretKey(jwtKey!) );
+      JWT.verify( acessToken, SecretKey(jwtKey!) );
       return true;
 
     } on JWTExpiredException {
