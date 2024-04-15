@@ -54,6 +54,11 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^3.0.0
 
+flutter_native_splash:
+  # color: "#1B1B1B"
+  image: lib/assets/images/shield.png
+  background_image: lib/assets/images/splash.png
+
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
