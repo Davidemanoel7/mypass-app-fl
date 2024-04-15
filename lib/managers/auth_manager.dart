@@ -62,7 +62,7 @@ class AuthenticationManager extends GetxController with SharedPrefManager{
         } on JWTExpiredException {
           await logout();
         } on JWTInvalidException catch ( e ) {
-          debugPrint('$e');
+          debugPrint( e.message );
         }
       }
       return false;
