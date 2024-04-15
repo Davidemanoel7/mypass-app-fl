@@ -18,7 +18,7 @@ class HomeView extends StatelessWidget {
           automaticallyImplyLeading: false,
           title: Obx(() => 
             Text(
-              'Olá, ${homeControll.usr.value.user}',
+              'Olá, ${homeControll.loadRequest.value ? '' : homeControll.usr.value.user}',
               style: MyPassFonts.style.kLabelMedium(context,
                 color: MyPassColors.black1B,
                 fontWeight: FontWeight.w700
