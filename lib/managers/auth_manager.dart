@@ -29,7 +29,9 @@ class AuthenticationManager extends GetxController with SharedPrefManager{
     await removeToken('acessToken');
     await removeToken('refreshToken');
     await setItemFromCache('isAuth', TypeKey.bool, false );
-    debugPrint('Logout Successful');
+    debugPrint('Logout Successfully');
+
+    Get.offAllNamed('/signIn');
   }
 
   Future<void> checkLoginStatus() async {
@@ -52,11 +54,15 @@ class AuthenticationManager extends GetxController with SharedPrefManager{
     } on JWTExpiredException {
       if ( refreshToken != null ) {
         debugPrint('Acess token expired. Try signIn using Refresh Token...');
-        String newToken = await generateNewAcessToken( refreshToken );
-
-        if ( newToken.isNotEmpty ) {
+        try {
+          JWT.verify( refreshToken, SecretKey(jwtKey!) );
+          String newToken = await generateNewAcessToken( refreshToken );
           await saveToken('acessToken', newToken );
           return true;
+        } on JWTExpiredException {
+          logout();
+        } on JWTInvalidException catch ( e ) {
+          debugPrint('$e');
         }
       }
       return false;
@@ -80,10 +86,7 @@ class AuthenticationManager extends GetxController with SharedPrefManager{
           Map<String, dynamic> respBody = jsonDecode(resp.body);
           debugPrint(respBody['acessToken']);
           await saveToken('acessToken', respBody['acessToken']);
-          // var newAcessToken = respBody;
           return respBody['acessToken'] as String;
-        case 401:
-          return '';
         default:
           return '';
       }       
