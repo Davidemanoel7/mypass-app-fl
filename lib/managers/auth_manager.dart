@@ -39,40 +39,53 @@ class AuthenticationManager extends GetxController with SharedPrefManager{
   }
 
   Future<bool> checkJwt() async {
-    String? jwtKey = dotenv.env['JWT_KEY'];
     String? acessToken = await getToken('acessToken');
     String? refreshToken = await getToken('refreshToken');
     
     try {
-      if ( acessToken == null ) {
+      if ( acessToken == null || refreshToken == null ) {
+        debugPrint('\nAcessToken: $acessToken\nRefreshToken: $refreshToken\n');
         return false;
       }
 
-      JWT.verify( acessToken, SecretKey(jwtKey!) );
-      return true;
+      bool acessTokenIsValid = await verifyToken( acessToken );
 
-    } on JWTExpiredException {
-      if ( refreshToken != null ) {
-        debugPrint('Acess token expired. Try signIn using Refresh Token...');
-        try {
-          JWT.verify( refreshToken, SecretKey(jwtKey!) );
-          String newToken = await generateNewAcessToken( refreshToken );
-          await saveToken('acessToken', newToken );
-          return true;
-        } on JWTExpiredException {
-          await logout();
-        } on JWTInvalidException catch ( e ) {
-          debugPrint( e.message );
-        }
+      bool refreshTokenIsValid = await verifyToken( refreshToken );
+
+      if ( !acessTokenIsValid   & refreshTokenIsValid ) {
+        // debugPrint('AcessToken invalid. generateNewAcessToken called.');
+        String newToken = await generateNewAcessToken( refreshToken );
+        // debugPrint(newToken);
+        await saveToken( 'acessToken', newToken );
+        return true;
+      } else if ( !refreshTokenIsValid ) {
+        // debugPrint('refresh invalid... Logout now');
+        await logout();
+        return false;
+      } else {
+        return true;
       }
+    } catch ( e ) {
+      debugPrint('$e');
       return false;
-    } on JWTException catch ( e ) {
+    }
+  }
+
+  Future<bool> verifyToken( String token ) async {
+    String? jwtKey = dotenv.env['JWT_KEY'];
+    try {
+      JWT.verify(token, SecretKey(jwtKey!));
+      return true;
+    } on JWTExpiredException {
+      return false;
+    } on JWTInvalidException catch ( e ) {
       debugPrint(e.message);
       return false;
     }
   }
 
-  Future<String> generateNewAcessToken( String refreshToken) async {
+  Future<dynamic> generateNewAcessToken( String refreshToken) async {
+    String? jwtKey = dotenv.env['JWT_KEY'];
     try {
       dynamic resp = await fetchData(
         Requests.getAcessToken,
@@ -88,11 +101,11 @@ class AuthenticationManager extends GetxController with SharedPrefManager{
           await saveToken('acessToken', respBody['acessToken']);
           return respBody['acessToken'] as String;
         default:
-          return '';
-      }       
-    } catch (e) {
-      debugPrint('$e');
-      return '';
+          return null;
+      }
+    } catch ( error ) {
+      debugPrint('$error');
+      return null;
     }
   }
 }

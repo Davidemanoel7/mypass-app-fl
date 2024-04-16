@@ -80,7 +80,7 @@ Future<dynamic> fetchData( Requests req, { String? params, dynamic body }) async
 Future<Map<String, String>> getHeaders( Requests req ) async {
 
   switch ( req ) {
-    case Requests.signIn || Requests.signUp || Requests.forgotPass || Requests.resetPass:
+    case Requests.signIn || Requests.signUp || Requests.forgotPass || Requests.resetPass || Requests.getAcessToken:
       return
         { 
           "content-type": "application/json",
