@@ -24,15 +24,13 @@ class ProfileControl extends GetxController with SharedPrefManager {
     loadRequest(true);
     HomeControll homeControllData = Get.find<HomeControll>();
     user = Rx(homeControllData.usr.value);
-
     loadRequest(false);
     super.onInit();
   }
 
   Future<bool> logOut() async {
     try {
-      final AuthenticationManager authManager =
-          Get.find<AuthenticationManager>();
+      final AuthenticationManager authManager = Get.find<AuthenticationManager>();
       await authManager.logout();
       return true;
     } catch (e) {
