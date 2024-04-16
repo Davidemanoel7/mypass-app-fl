@@ -31,7 +31,7 @@ class SplashView extends StatelessWidget {
       future: initializeSettings(),
       builder: (context, snapshot) {
         if ( snapshot.connectionState == ConnectionState.waiting ) {
-          return waitingView();
+          return waitingView( context );
         } else {
           if ( snapshot.hasError) {
             return errorView(context);
@@ -44,22 +44,15 @@ class SplashView extends StatelessWidget {
     );
   }
 
-  Scaffold waitingView() {
-    return const Scaffold(
+  Scaffold waitingView( BuildContext context ) {
+    return Scaffold(
       body: Center(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 16),
-              child: CircularProgressIndicator(
-                color: MyPassColors.blueLight,
-              ),
-            ),
-            Text('Carregando...')
-          ],
-        ),
+        child: Image.asset(
+          './lib/assets/images/splash.png',
+          fit: BoxFit.cover,
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+        )
       ),
     );
   }
