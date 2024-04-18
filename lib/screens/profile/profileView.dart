@@ -167,6 +167,9 @@ class ProfileView extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(vertical: 8),
                     child: TextButton(
                       onPressed: () => Get.toNamed('/deleteAccount'),
+                      style: const ButtonStyle(
+                        splashFactory: NoSplash.splashFactory
+                      ),
                       child: const Text(
                         'Encerrar conta',
                         style: TextStyle(
@@ -188,10 +191,13 @@ class ProfileView extends StatelessWidget {
                         TextButton(
                           onPressed: () async {
                             bool logout = await profileControl.logOut();
-                            if ( logout ){
-                              Get.offAllNamed('/signIn');
-                            }
+                            // if ( logout ){
+                            //   Get.offAllNamed('/signIn');
+                            // }
                           },
+                          style: const ButtonStyle(
+                            splashFactory: NoSplash.splashFactory,
+                          ),
                           child: Padding(
                             padding: const EdgeInsets.symmetric(vertical: 16.0),
                             child: Row(
