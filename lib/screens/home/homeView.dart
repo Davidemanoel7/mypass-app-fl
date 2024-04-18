@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:mypass/screens/home/homeControll.dart';
 import 'package:mypass/utils/themes.dart';
 import 'package:mypass/widgets/components/customShimmer.dart';
+import 'package:mypass/widgets/components/passwordButton.dart';
 import 'package:shimmer/shimmer.dart';
 
 class HomeView extends StatelessWidget {
@@ -63,9 +64,9 @@ class HomeView extends StatelessWidget {
             )
           ],
         ),
-        body: Container(
+        body: SingleChildScrollView(
           padding: const EdgeInsets.all(24.0),
-          alignment: Alignment.center,
+          physics: const ClampingScrollPhysics(),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -120,61 +121,57 @@ class HomeView extends StatelessWidget {
                 )
               ),
               Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: GestureDetector(
-                  onTap:() => debugPrint('Minhas senhas'),
-                  child: Container(
-                    height: 91,
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        width: 1,
-                        color: MyPassColors.whiteF0.withOpacity(0.2)
-                      ),
-                      borderRadius: BorderRadius.circular(24),
-                      gradient: const LinearGradient(
-                        colors: [
-                          MyPassColors.blueLight,
-                          MyPassColors.purpleLight
-                        ],
-                        begin: AlignmentDirectional.topStart,
-                        end: AlignmentDirectional.bottomEnd
-                      )
-                    ),
-                    child: Row(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
-                          child: Text(
-                            'Minhas senhas',
-                            style: MyPassFonts.style.kTitleMedium(context,
-                              color: MyPassColors.whiteF0,
-                            ),
+                        Text(
+                          'Minhas senhas',
+                          style: MyPassFonts.style.kLabelMedium(context,
+                            color: MyPassColors.greyDarker
                           ),
                         ),
-                        const Icon(
-                          Icons.password_rounded,
-                          color: MyPassColors.whiteF0,
-                          size: 32,
+                        TextButton(
+                          onPressed: () async => await homeControll.fetchPasswords(),
+                          style: const ButtonStyle(
+                            splashFactory: NoSplash.splashFactory
+                          ),
+                          child: const Text(
+                            'ver todas',
+                            style: TextStyle(
+                              color: MyPassColors.purpleLight,
+                              fontSize: 12.0,
+                              // fontWeight: FontWeight.w300
+                            ),
+                          )
                         )
                       ],
                     ),
-                  ),
-                ),
-              ),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(
-                      'v1.0.0',
-                      style: MyPassFonts.style.kLabelSmall(context,
-                        color: MyPassColors.greyBD 
-                      ),
-                    )
+                    SizedBox(
+                      child: 
+                        ListView.separated(
+                          itemCount: 4,
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemBuilder: ((context, index) =>
+                            Obx(() => homeControll.loadRequest.value
+                            ? CustomShimmer(
+                                height: 84,
+                                width: MediaQuery.of(context).size.width,
+                                borderRadius: 16
+                              )
+                            : PasswordButton(
+                                title: homeControll.listPasswords[index].description
+                              )
+                          )),
+                          separatorBuilder: (context, index) => const SizedBox( height: 8),
+                        ),
+                    ),
                   ],
                 ),
-              )
+              ),
             ],
           ),
         ),
