@@ -92,7 +92,7 @@ Future<Map<String, String>> getHeaders( Requests req ) async {
       bool checkLogin = await authManager.checkJwt();
       debugPrint('$checkLogin');
 
-      String? token = sharedPrefs.getString('acessToken');
+      String? token = await authManager.getToken('acessToken');
       return
         { 
           "content-type": "application/json",
