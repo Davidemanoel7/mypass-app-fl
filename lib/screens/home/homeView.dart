@@ -130,11 +130,12 @@ class HomeView extends StatelessWidget {
                         Text(
                           'Minhas senhas',
                           style: MyPassFonts.style.kLabelMedium(context,
-                            color: MyPassColors.greyDarker
+                            color: MyPassColors.greyDarker,
+                            fontWeight: FontWeight.bold
                           ),
                         ),
                         TextButton(
-                          onPressed: () async => await homeControll.fetchPasswords(),
+                          onPressed: () { },
                           style: const ButtonStyle(
                             splashFactory: NoSplash.splashFactory
                           ),
@@ -163,7 +164,7 @@ class HomeView extends StatelessWidget {
                                 borderRadius: 16
                               )
                             : PasswordButton(
-                                title: homeControll.listPasswords[index].description
+                                pass: homeControll.listPasswords[index],
                               )
                           )),
                           separatorBuilder: (context, index) => const SizedBox( height: 8),
