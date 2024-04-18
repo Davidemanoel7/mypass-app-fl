@@ -1,22 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:mypass/models/pass_model.dart';
 import 'package:mypass/utils/themes.dart';
 
 class PasswordButton extends StatelessWidget {
-  const PasswordButton({super.key,
-    required this.title
+  PasswordButton({super.key,
+    required this.pass
   });
 
-  final String title;
+  Password pass;
 
   @override
   Widget build(BuildContext context) {
     return OutlinedButton(
       onPressed: (){
-        
+        debugPrint('Go to router with ID: ${pass.id}');
       },
       style: OutlinedButton.styleFrom(
-        padding: const EdgeInsets.all(8),
+        padding: const EdgeInsets.symmetric( vertical: 8, horizontal: 12 ),
         splashFactory: NoSplash.splashFactory,
+        fixedSize: Size(
+          MediaQuery.of(context).size.width,
+          64
+        ),
         side: const BorderSide(
           width: 1.0,
           color: MyPassColors.greyDarker,
@@ -28,13 +33,10 @@ class PasswordButton extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,        
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric( horizontal: 8, vertical: 12),
-            child: Text(
-              title,
-              style: MyPassFonts.style.kLabelMedium(context,
-                color: MyPassColors.greyDarker
-              ),
+          Text(
+            pass.description,
+            style: MyPassFonts.style.kLabelMedium(context,
+              color: MyPassColors.greyDarker
             ),
           ),
           const Icon(
