@@ -135,7 +135,7 @@ class HomeView extends StatelessWidget {
                           ),
                         ),
                         TextButton(
-                          onPressed: () { },
+                          onPressed: () => Get.toNamed('/savedPasswords'),
                           style: const ButtonStyle(
                             splashFactory: NoSplash.splashFactory
                           ),
