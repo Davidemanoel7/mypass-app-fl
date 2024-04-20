@@ -150,26 +150,39 @@ class HomeView extends StatelessWidget {
                         )
                       ],
                     ),
-                    SizedBox(
-                      child: 
-                        ListView.separated(
-                          itemCount: 4,
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemBuilder: ((context, index) =>
-                            Obx(() => homeControll.loadRequest.value
-                            ? CustomShimmer(
-                                height: 84,
-                                width: MediaQuery.of(context).size.width,
-                                borderRadius: 16
-                              )
-                            : PasswordButton(
-                                pass: homeControll.listPasswords[index],
-                              )
-                          )),
-                          separatorBuilder: (context, index) => const SizedBox( height: 8),
-                        ),
-                    ),
+                    Obx(() => !homeControll.loadRequest.value && homeControll.listPasswords.isEmpty
+                      ? Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Image.asset(
+                            './lib/assets/images/key.png',
+                            height: 92,
+                          ),
+                          const Text('Parece que você não criou nenhuma senha ainda...')
+                        ],
+                      )
+                      : SizedBox(
+                        child: 
+                          ListView.separated(
+                            itemCount: homeControll.loadRequest.value ? 4 : homeControll.listPasswords.length,
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemBuilder: ((context, index) =>
+                              homeControll.loadRequest.value
+                              ? CustomShimmer(
+                                  height: 84,
+                                  width: MediaQuery.of(context).size.width,
+                                  borderRadius: 16
+                                )
+                              : PasswordButton(
+                                  pass: homeControll.listPasswords[index],
+                                )
+                            ),
+                            separatorBuilder: (context, index) => const SizedBox( height: 8),
+                          ),
+                      ),
+                    )
                   ],
                 ),
               ),
