@@ -10,9 +10,22 @@ class SavedPassView extends StatelessWidget {
 
   TextEditingController searchController = TextEditingController();
   SavedController savedController = Get.put(SavedController());
+  final ScrollController _scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
+
+    RxBool scrollFetching = false.obs;
+
+    _scrollController.addListener(() async {
+      if ( !savedController.isLoading.value && _scrollController.position.pixels == _scrollController.position.maxScrollExtent ){
+        savedController.pageNum.value += 1;
+        scrollFetching(true);
+        await savedController.fetchPasswords();
+        scrollFetching(false);
+      }
+    });
+
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -30,7 +43,9 @@ class SavedPassView extends StatelessWidget {
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
             debugPrint('\nTry fetching more passwords!');
+            debugPrint('PageNum: ${savedController.pageNum.value}');
             savedController.pageNum.value += 1;
+            debugPrint('PageNum: ${savedController.pageNum.value}');
             await savedController.fetchPasswords();
             savedController.update();
           },
@@ -39,6 +54,7 @@ class SavedPassView extends StatelessWidget {
         ),
         body: SingleChildScrollView(
           physics: const  ClampingScrollPhysics(),
+          controller: _scrollController,
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
           child: Column(
             children: <Widget>[
@@ -101,22 +117,34 @@ class SavedPassView extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                child: ListView.separated(
-                  physics: const NeverScrollableScrollPhysics(),
-                  scrollDirection: Axis.vertical,
-                  itemCount: savedController.isLoading.value ? 10 :  savedController.passwords.length,
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) => Obx(()=> 
-                    savedController.isLoading.value
-                      ? CustomShimmer(
-                          height: 64,
-                          width: MediaQuery.of(context).size.width,
-                          borderRadius: 16
-                        )
-                      : PasswordButton(pass: savedController.passwords[index]),
+                child: Obx(() => !savedController.isLoading.value && savedController.passwords.isEmpty ?
+                    const Center(
+                      child: Text('Nenhuma senha cadastrada...'),
+                    )
+                  :
+                  ListView.separated(
+                    physics: const NeverScrollableScrollPhysics(),
+                    // controller: _scrollController,
+                    scrollDirection: Axis.vertical,
+                    itemCount: savedController.isLoading.value ? 10 :  savedController.passwords.length,
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) =>
+                      savedController.isLoading.value
+                        ? CustomShimmer(
+                            height: 64,
+                            width: MediaQuery.of(context).size.width,
+                            borderRadius: 16
+                          )
+                        : PasswordButton(pass: savedController.passwords[index]),
+                    separatorBuilder: (context, index) => const SizedBox(height: 8),
                   ),
-                  separatorBuilder: (context, index) => const SizedBox(height: 8),
-                ),
+                )
+              ),
+              Obx(() => scrollFetching.value
+              ? const CircularProgressIndicator(
+                color: MyPassColors.greyDarker,
+              )
+              : const SizedBox()
               ),
             ],
           ),
