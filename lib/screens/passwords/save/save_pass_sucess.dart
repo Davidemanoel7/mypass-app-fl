@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mypass/screens/passwords/saved/saved_controll.dart';
 import 'package:mypass/utils/themes.dart';
 
 class SaveSuccessView extends StatelessWidget {
@@ -44,7 +45,11 @@ class SaveSuccessView extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric( vertical: 12 ),
                 child: ElevatedButton(
-                  onPressed: () => Get.offAllNamed('/home'),
+                  onPressed: () {
+                    SavedController savedController = Get.put(SavedController());
+                    savedController.update();
+                    Get.offAllNamed('/home');
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: MyPassColors.purpleLight,
                     alignment: Alignment.center,
