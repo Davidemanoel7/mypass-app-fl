@@ -31,9 +31,13 @@ class SavedController extends GetxController {
 
       switch ( resp.statusCode ) {
         case 200:
-          passwords.value += List<dynamic>.from( respBody['passwords']).map(
-            (p) => Password.fromJson(p)
-          ).toList();
+          List<Password> pass = List<dynamic>.from( respBody['passwords'])
+                              .map( (p) => Password.fromJson(p)).toList();
+          if ( pass.isNotEmpty ) {
+            passwords.addAll( pass );
+          } else {
+            debugPrint('pass\'s empty');
+          }
           debugPrint('Status code 200');
           return;
         default:
