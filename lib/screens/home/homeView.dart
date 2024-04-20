@@ -165,7 +165,9 @@ class HomeView extends StatelessWidget {
                       : SizedBox(
                         child: 
                           ListView.separated(
-                            itemCount: homeControll.loadRequest.value ? 4 : homeControll.listPasswords.length,
+                            itemCount: homeControll.loadRequest.value
+                            ? 4
+                            : homeControll.listPasswords.length > 4 ? 4 : homeControll.listPasswords.length,
                             physics: const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
                             itemBuilder: ((context, index) =>
