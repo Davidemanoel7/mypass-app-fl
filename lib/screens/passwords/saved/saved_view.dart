@@ -41,13 +41,8 @@ class SavedPassView extends StatelessWidget {
           centerTitle: true,
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () async {
-            debugPrint('\nTry fetching more passwords!');
-            debugPrint('PageNum: ${savedController.pageNum.value}');
-            savedController.pageNum.value += 1;
-            debugPrint('PageNum: ${savedController.pageNum.value}');
-            await savedController.fetchPasswords();
-            savedController.update();
+          onPressed: () {
+            Get.toNamed('/create/password');
           },
           backgroundColor: MyPassColors.purpleLight,
           child: const Icon(Icons.add),
@@ -118,15 +113,28 @@ class SavedPassView extends StatelessWidget {
               ),
               SizedBox(
                 child: Obx(() => !savedController.isLoading.value && savedController.passwords.isEmpty ?
-                    const Center(
-                      child: Text('Nenhuma senha cadastrada...'),
+                    Column(
+                      children: [
+                        Image.asset(
+                          './lib/assets/images/key.png',
+                          height: 104,
+                        ),
+                        const Text(
+                          'Nenhuma senha cadastrada...',
+                          style: TextStyle(
+                            color: MyPassColors.greyDarker,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w200
+                          ),
+                        )
+                      ],
                     )
                   :
                   ListView.separated(
                     physics: const NeverScrollableScrollPhysics(),
                     // controller: _scrollController,
                     scrollDirection: Axis.vertical,
-                    itemCount: savedController.isLoading.value ? 10 :  savedController.passwords.length,
+                    itemCount: savedController.isLoading.value ? 8 :  savedController.passwords.length,
                     shrinkWrap: true,
                     itemBuilder: (context, index) =>
                       savedController.isLoading.value
