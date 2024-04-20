@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mypass/screens/home/homeControll.dart';
@@ -24,7 +22,7 @@ class ChangeDataControl extends GetxController {
         }
       );
 
-      var responseBody = jsonDecode(resp.body) as Map<String, dynamic>;
+      // var responseBody = jsonDecode(resp.body) as Map<String, dynamic>;
 
       switch ( resp.statusCode ) {
         case 200:

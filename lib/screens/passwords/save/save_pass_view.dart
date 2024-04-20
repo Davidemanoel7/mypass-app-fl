@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:mypass/screens/passwords/save/save_pass_control.dart';
 import 'package:mypass/utils/themes.dart';
 
+// ignore: must_be_immutable
 class SavePassView extends StatelessWidget {
   SavePassView({super.key});
 

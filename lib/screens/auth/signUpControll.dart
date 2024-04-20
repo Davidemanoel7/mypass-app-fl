@@ -1,12 +1,9 @@
 import 'dart:convert';
-
-import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mypass/managers/auth_manager.dart';
 import 'package:mypass/models/userModel.dart';
 import 'package:mypass/services/fetchData.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class SignUpControl extends GetxController{
   var isEmailValid = false.obs;

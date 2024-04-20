@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -28,14 +27,12 @@ class ProfileControl extends GetxController with SharedPrefManager {
     super.onInit();
   }
 
-  Future<bool> logOut() async {
+  Future<void> logOut() async {
     try {
       final AuthenticationManager authManager = Get.find<AuthenticationManager>();
       await authManager.logout();
-      return true;
     } catch (e) {
       debugPrint('\nError: $e');
-      return false;
     }
   }
 

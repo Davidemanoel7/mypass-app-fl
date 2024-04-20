@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mypass/models/pass_model.dart';
 import 'package:mypass/utils/themes.dart';
 
+// ignore: must_be_immutable
 class PasswordButton extends StatelessWidget {
   PasswordButton({super.key,
     required this.pass

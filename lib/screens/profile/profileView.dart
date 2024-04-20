@@ -34,7 +34,14 @@ class ProfileView extends StatelessWidget {
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadius.circular(80.0),
-                    child: Stack(
+                    child: 
+                      profileControl.user.value.getProfileImage() == ''
+                      ? Container(
+                          width: 160,
+                          height: 160,
+                          color: MyPassColors.greyDarker,
+                        )
+                      : Stack(
                       fit: StackFit.passthrough,
                       children: [
                         Image.network(
@@ -190,10 +197,7 @@ class ProfileView extends StatelessWidget {
                       children: [
                         TextButton(
                           onPressed: () async {
-                            bool logout = await profileControl.logOut();
-                            // if ( logout ){
-                            //   Get.offAllNamed('/signIn');
-                            // }
+                            await profileControl.logOut();
                           },
                           style: const ButtonStyle(
                             splashFactory: NoSplash.splashFactory,

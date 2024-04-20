@@ -5,6 +5,7 @@ import 'package:mypass/utils/themes.dart';
 import 'package:mypass/widgets/components/customShimmer.dart';
 import 'package:mypass/widgets/components/passwordButton.dart';
 
+// ignore: must_be_immutable
 class SavedPassView extends StatelessWidget {
   SavedPassView({super.key});
 
