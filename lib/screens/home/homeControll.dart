@@ -65,8 +65,6 @@ class HomeControll extends GetxController {
 
       switch ( resp.statusCode ){
         case 200:
-          debugPrint('Status Code 200');
-
           listPasswords( List<dynamic>.from(responseBody['passwords'])
             .map((p) => Password.fromJson(p)).toList()
           );
