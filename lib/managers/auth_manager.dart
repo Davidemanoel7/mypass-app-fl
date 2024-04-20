@@ -85,7 +85,6 @@ class AuthenticationManager extends GetxController with SharedPrefManager{
   }
 
   Future<dynamic> generateNewAcessToken( String refreshToken) async {
-    String? jwtKey = dotenv.env['JWT_KEY'];
     try {
       dynamic resp = await fetchData(
         Requests.getAcessToken,

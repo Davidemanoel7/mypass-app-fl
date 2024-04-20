@@ -4,7 +4,6 @@ import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:mypass/managers/auth_manager.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 // See API doc.: https://app.swaggerhub.com/apis-docs/DAVIDEMANOEL706/MyPass/1.0.0
 
@@ -87,12 +86,11 @@ Future<Map<String, String>> getHeaders( Requests req ) async {
           "accept": "application/json",
         };
     default:
-      final SharedPreferences sharedPrefs = await SharedPreferences.getInstance();
       AuthenticationManager authManager = Get.find<AuthenticationManager>();
       bool checkLogin = await authManager.checkJwt();
       debugPrint('$checkLogin');
 
-      String? token = sharedPrefs.getString('acessToken');
+      String? token = await authManager.getToken('acessToken');
       return
         { 
           "content-type": "application/json",

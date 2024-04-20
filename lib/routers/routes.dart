@@ -10,8 +10,10 @@ import 'package:mypass/screens/passwords/create/create_pass_view.dart';
 import 'package:mypass/screens/passwords/create/help_pass_view.dart';
 import 'package:mypass/screens/passwords/save/save_pass_sucess.dart';
 import 'package:mypass/screens/passwords/save/save_pass_view.dart';
+import 'package:mypass/screens/passwords/saved/saved_view.dart';
 import 'package:mypass/screens/profile/deleteAccount/delete_view.dart';
 import 'package:mypass/screens/profile/profileView.dart';
+
 import '../screens/onboard/onboard_view.dart';
 
 appRoutes () => [
@@ -85,6 +87,12 @@ appRoutes () => [
     name: '/savePassSuccess',
     page: () => const SaveSuccessView(),
     transition: Transition.native,
+    transitionDuration: const Duration( milliseconds: 500 ),
+  ),
+  GetPage(
+    name: '/savedPasswords',
+    page: () => SavedPassView(),
+    transition: Transition.cupertino,
     transitionDuration: const Duration( milliseconds: 500 ),
   ),
 ];
