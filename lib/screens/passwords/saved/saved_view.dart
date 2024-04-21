@@ -150,9 +150,12 @@ class SavedPassView extends StatelessWidget {
                 )
               ),
               Obx(() => scrollFetching.value
-              ? const CircularProgressIndicator(
-                color: MyPassColors.greyDarker,
-              )
+              ? const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 16),
+                  child: CircularProgressIndicator(
+                    color: MyPassColors.greyDarker,
+                  ),
+                )
               : const SizedBox()
               ),
             ],
