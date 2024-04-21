@@ -36,35 +36,60 @@ class ProfileView extends StatelessWidget {
                     borderRadius: BorderRadius.circular(80.0),
                     child: 
                       profileControl.user.value.getProfileImage() == ''
-                      ? Container(
-                          width: 160,
-                          height: 160,
-                          color: MyPassColors.greyDarker,
+                      ? Stack(
+                          fit: StackFit.passthrough,
+                          children: [
+                            Container(
+                              height: 160.0,
+                              width: 160.0,
+                              color: MyPassColors.whiteF0.withOpacity(0.7),
+                              child: Center(
+                                child: Icon(
+                                  Icons.person,
+                                  color: MyPassColors.greyBD.withOpacity(0.4),
+                                  size: 120,
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              bottom: 16.0,
+                              right: 16.0,
+                              child: IconButton.filled(
+                                onPressed: () async => await profileControl.uploadImage(),
+                                icon: const Icon(
+                                  Icons.camera_alt_outlined,
+                                  color: MyPassColors.whiteF0,
+                                  size: 24,
+                                ),
+                                splashColor: MyPassColors.blueLight,
+                              )
+                            )
+                          ],
                         )
                       : Stack(
-                      fit: StackFit.passthrough,
-                      children: [
-                        Image.network(
-                          profileControl.user.value.getProfileImage(),
-                          fit: BoxFit.cover,
-                          width: 160.0,
-                          height: 160.0,
-                        ),
-                        Positioned(
-                          bottom: 16.0,
-                          right: 16.0,
-                          child: IconButton.filled(
-                            onPressed: () async => await profileControl.uploadImage(),
-                            icon: const Icon(
-                              Icons.camera_alt_outlined,
-                              color: MyPassColors.whiteF0,
-                              size: 24,
+                          fit: StackFit.passthrough,
+                          children: [
+                            Image.network(
+                              profileControl.user.value.getProfileImage(),
+                              fit: BoxFit.cover,
+                              width: 160.0,
+                              height: 160.0,
                             ),
-                            splashColor: MyPassColors.blueLight,
-                          )
+                            Positioned(
+                              bottom: 16.0,
+                              right: 16.0,
+                              child: IconButton.filled(
+                                onPressed: () async => await profileControl.uploadImage(),
+                                icon: const Icon(
+                                  Icons.camera_alt_outlined,
+                                  color: MyPassColors.whiteF0,
+                                  size: 24,
+                                ),
+                                splashColor: MyPassColors.blueLight,
+                              )
+                            )
+                          ],
                         )
-                      ],
-                    )
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 4),

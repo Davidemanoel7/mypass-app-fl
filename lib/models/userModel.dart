@@ -19,7 +19,7 @@ class User{
       user: json['user'] as String,
       email: json['email'] as String,
       userType: json['userType'] ?? 'common',
-      profileImage: json['profileImage']
+      profileImage: json['profileImage'] ?? ''
     );
   }
 
@@ -32,6 +32,6 @@ class User{
   String getEmail () => email;
   void setEmail( String newEmail ) => email = newEmail;
 
-  String getProfileImage () => profileImage!;
+  String getProfileImage () => profileImage ?? '';
   void setProfileImage( String newProfileImage ) => profileImage = newProfileImage;
 }
