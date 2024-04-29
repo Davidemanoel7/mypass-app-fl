@@ -10,22 +10,27 @@ class HomeControll extends GetxController {
   
   RxBool loadRequest = false.obs;
 
-  Rx<User> usr =  User(email: '', name: '', user: '').obs;
+  Rx<User> usr = User(email:'', name: '', user: '', profileImage: '', userType: '').obs;
   RxList<Password> listPasswords = <Password>[].obs;
+  RxInt pageNum = 1.obs;
 
   @override
   void onInit() async {
     loadRequest(true);
-
-    bool user = await getProfile();
+    await getProfile();
     await fetchPasswords();
-    if ( user ) super.update();
-
     loadRequest(false);
     super.onInit();
   }
 
-  Future<bool> getProfile() async {
+  @override
+  void refresh() {
+    usr.refresh();
+    listPasswords.refresh();
+    super.refresh();
+  }
+
+  Future<void> getProfile() async {
     try {
       dynamic result = await fetchData(
         Requests.getUser,
@@ -35,39 +40,43 @@ class HomeControll extends GetxController {
 
       switch ( result.statusCode ) {
         case 200:
-          usr.value.setName(respBody['name']);
-          usr.value.setUser(respBody['user']);
-          usr.value.setEmail(respBody['email']);
-          usr.value.setProfileImage(respBody['profileImage']);
-          return true;
+          usr(User.fromJson( respBody ));
+          return;
         case 401:
           debugPrint('Auth failed or Unauthorized');
-          return false;
+          return;
         case 404:
           debugPrint('Not found');
-          return false;
+          return;
         default:
           debugPrint('Something wrong');
-          return false;
+          return;
       } 
     } catch (e) {
       debugPrint('$e');
-      return false;
     }
   }
 
   Future<void> fetchPasswords() async {
     dynamic resp = await fetchData(
-      Requests.getAllPass
+      Requests.getAllPass,
+      params: '?page=$pageNum'
     );
     try {
       Map<String, dynamic> responseBody = jsonDecode(resp.body);
 
       switch ( resp.statusCode ){
         case 200:
-          listPasswords( List<dynamic>.from(responseBody['passwords'])
-            .map((p) => Password.fromJson(p)).toList()
-          );
+          List<Password> responseBodyPass = List<Map<String, dynamic>>.from(responseBody['passwords'])
+            .map((p) => Password.fromJson(p)).toList();
+          
+          if ( responseBodyPass.isNotEmpty ) {
+            debugPrint('${responseBody['currentPage']}/${responseBody['totalPages']}');
+            listPasswords.addAll( responseBodyPass );
+            update();
+          } else {
+            debugPrint('Pass empty. Page $pageNum/${responseBody['totalPages']}');
+          }
           return;
         case 401:
           debugPrint('Status Code 401');
