@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mypass/screens/home/homeControll.dart';
 import 'package:mypass/screens/passwords/saved/saved_controll.dart';
 import 'package:mypass/utils/themes.dart';
 
@@ -47,8 +48,10 @@ class SaveSuccessView extends StatelessWidget {
                 child: ElevatedButton(
                   onPressed: () {
                     SavedController savedController = Get.put(SavedController());
+                    HomeControll homeControll = Get.put(HomeControll());
                     savedController.update();
-                    Get.offAllNamed('/home');
+                    homeControll.update();
+                    Get.offNamedUntil('/home', (route) => false);
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: MyPassColors.purpleLight,

@@ -8,6 +8,7 @@ import 'package:mypass/screens/forgot/forgotView.dart';
 import 'package:mypass/screens/home/homeView.dart';
 import 'package:mypass/screens/passwords/create/create_pass_view.dart';
 import 'package:mypass/screens/passwords/create/help_pass_view.dart';
+import 'package:mypass/screens/passwords/pass_detail/password_detail.dart';
 import 'package:mypass/screens/passwords/save/save_pass_sucess.dart';
 import 'package:mypass/screens/passwords/save/save_pass_view.dart';
 import 'package:mypass/screens/passwords/saved/saved_view.dart';
@@ -92,6 +93,12 @@ appRoutes () => [
   GetPage(
     name: '/savedPasswords',
     page: () => SavedPassView(),
+    transition: Transition.cupertino,
+    transitionDuration: const Duration( milliseconds: 500 ),
+  ),
+  GetPage(
+    name: '/passDetail',
+    page: () => PasswordDetail(),
     transition: Transition.cupertino,
     transitionDuration: const Duration( milliseconds: 500 ),
   ),

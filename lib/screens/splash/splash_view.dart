@@ -47,11 +47,18 @@ class SplashView extends StatelessWidget {
   Scaffold waitingView( BuildContext context ) {
     return Scaffold(
       body: Center(
-        child: Image.asset(
-          './lib/assets/images/splash.png',
-          fit: BoxFit.cover,
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
+        child: Stack(
+          children: [
+            Image.asset(
+              './lib/assets/images/splash.png',
+              fit: BoxFit.cover,
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+            ),
+            const CircularProgressIndicator(
+              color: MyPassColors.whiteF0,
+            )
+          ],
         )
       ),
     );

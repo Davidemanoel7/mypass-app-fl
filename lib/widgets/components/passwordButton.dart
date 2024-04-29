@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:mypass/models/pass_model.dart';
 import 'package:mypass/utils/themes.dart';
 
 // ignore: must_be_immutable
 class PasswordButton extends StatelessWidget {
   PasswordButton({super.key,
-    required this.pass
+    required this.pass,
   });
 
   Password pass;
-
+  
   @override
   Widget build(BuildContext context) {
     return OutlinedButton(
-      onPressed: (){
-        debugPrint('Go to router with ID: ${pass.id}');
+      onPressed: () {
+        Get.toNamed('/passDetail', arguments: { 'pass': pass }
+        );
       },
       style: OutlinedButton.styleFrom(
         padding: const EdgeInsets.symmetric( vertical: 8, horizontal: 12 ),

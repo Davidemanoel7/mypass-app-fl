@@ -37,7 +37,7 @@ class SignInView extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 12),
                     child: Form(
-                      autovalidateMode: AutovalidateMode.always,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
                       child: TextFormField(
                         controller: emailEditControl,
                         style: const TextStyle(
