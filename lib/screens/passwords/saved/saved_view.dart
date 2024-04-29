@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mypass/screens/passwords/saved/saved_controll.dart';
+import 'package:mypass/screens/home/homeControll.dart';
 import 'package:mypass/utils/themes.dart';
 import 'package:mypass/widgets/components/customShimmer.dart';
 import 'package:mypass/widgets/components/passwordButton.dart';
@@ -10,7 +10,7 @@ class SavedPassView extends StatelessWidget {
   SavedPassView({super.key});
 
   TextEditingController searchController = TextEditingController();
-  SavedController savedController = Get.put(SavedController());
+  HomeControll homeController = Get.put(HomeControll());
   final ScrollController _scrollController = ScrollController();
 
   @override
@@ -19,10 +19,10 @@ class SavedPassView extends StatelessWidget {
     RxBool scrollFetching = false.obs;
 
     _scrollController.addListener(() async {
-      if ( !savedController.isLoading.value && _scrollController.position.pixels == _scrollController.position.maxScrollExtent ){
-        savedController.pageNum.value += 1;
+      if ( !homeController.loadRequest.value && _scrollController.position.pixels == _scrollController.position.maxScrollExtent ){
+        homeController.pageNum.value += 1;
         scrollFetching(true);
-        await savedController.fetchPasswords();
+        await homeController.fetchPasswords();
         scrollFetching(false);
       }
     });
@@ -30,8 +30,9 @@ class SavedPassView extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+          forceMaterialTransparency: true,
           backgroundColor: Colors.transparent,  
-          elevation: 0,
+          elevation: 2,
           title: Text(
             'Minhas senhas',
             style: MyPassFonts.style.kLabelMedium(context,
@@ -102,6 +103,7 @@ class SavedPassView extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 24),
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
                       'Minhas senhas',
@@ -113,7 +115,7 @@ class SavedPassView extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                child: Obx(() => !savedController.isLoading.value && savedController.passwords.isEmpty ?
+                child: Obx(() => !homeController.loadRequest.value && homeController.listPasswords.isEmpty ?
                     Column(
                       children: [
                         Image.asset(
@@ -135,16 +137,16 @@ class SavedPassView extends StatelessWidget {
                     physics: const NeverScrollableScrollPhysics(),
                     // controller: _scrollController,
                     scrollDirection: Axis.vertical,
-                    itemCount: savedController.isLoading.value ? 8 :  savedController.passwords.length,
+                    itemCount: homeController.loadRequest.value ? 8 :  homeController.listPasswords.length,
                     shrinkWrap: true,
                     itemBuilder: (context, index) =>
-                      savedController.isLoading.value
+                      homeController.loadRequest.value
                         ? CustomShimmer(
                             height: 64,
                             width: MediaQuery.of(context).size.width,
                             borderRadius: 16
                           )
-                        : PasswordButton(pass: savedController.passwords[index]),
+                        : PasswordButton(pass: homeController.listPasswords[index]),
                     separatorBuilder: (context, index) => const SizedBox(height: 8),
                   ),
                 )
