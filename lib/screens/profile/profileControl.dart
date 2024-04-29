@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -9,6 +8,7 @@ import 'package:mypass/managers/auth_manager.dart';
 import 'package:mypass/managers/cache_manager.dart';
 import 'package:mypass/models/userModel.dart';
 import 'package:mypass/screens/home/homeControll.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class ProfileControl extends GetxController with SharedPrefManager {
 
@@ -79,36 +79,10 @@ class ProfileControl extends GetxController with SharedPrefManager {
     }
   }
 
-  Future<bool> upload() async {
-    File? image = await getImageFromGallery();
-
-    if (image == null) return false;
-
-    final uri = Uri.parse("https://mypass-api.onrender.com/v1/user/changeProfileImage/");
-
-    final request = http.MultipartRequest("PATCH", uri)
-      ..files.add( await http.MultipartFile.fromPath("profileImage", image.path));
+  Future<bool> requestPermission( Permission perm) async {
+    final status = perm.request();
     
-    String token = await getItemFromCache('acessToken', TypeKey.String);
-
-    Map<String, String> headers = {
-      "Content-type": "multipart/form-data",
-      "accept": "application/json",
-      "authorization": "Bearer $token"
-    };
-
-    request.headers.addAll(headers);
-
-    final res = await request.send();
-    http.Response response = await http.Response.fromStream(res);
-
-    if (response.statusCode == 200) {
-      debugPrint("Uploaded!");
-      return true;
-    } else {
-      debugPrint('Response body: ${response.body}');
-      debugPrint("Failed to upload.");
-      return false;
-    }
+    
+    return true;
   }
 }

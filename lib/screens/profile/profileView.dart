@@ -55,7 +55,10 @@ class ProfileView extends StatelessWidget {
                               bottom: 16.0,
                               right: 16.0,
                               child: IconButton.filled(
-                                onPressed: () async => await profileControl.uploadImage(),
+                                onPressed: () async {
+                                  
+                                  // await profileControl.uploadImage();
+                                },
                                 icon: const Icon(
                                   Icons.camera_alt_outlined,
                                   color: MyPassColors.whiteF0,
