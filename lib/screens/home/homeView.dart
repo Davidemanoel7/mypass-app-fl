@@ -163,8 +163,8 @@ class HomeView extends StatelessWidget {
                         ],
                       )
                       : SizedBox(
-                        child: 
-                          ListView.separated(
+                        child: GetBuilder<HomeControll>(
+                          builder: (_) => ListView.separated(
                             itemCount: homeControll.loadRequest.value
                             ? 4
                             : homeControll.listPasswords.length > 4 ? 4 : homeControll.listPasswords.length,
@@ -183,6 +183,7 @@ class HomeView extends StatelessWidget {
                             ),
                             separatorBuilder: (context, index) => const SizedBox( height: 8),
                           ),
+                        ),
                       ),
                     )
                   ],
