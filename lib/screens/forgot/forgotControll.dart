@@ -20,35 +20,31 @@ class ForgotControll extends GetxController{
         Requests.forgotPass,
         body: body
       );
+      forgotLoad(false);
 
       Map<String, dynamic> responseBody = jsonDecode(resp.body);
 
       switch ( resp.statusCode ) {
         case 200:
-          forgotLoad(false);
           return {
             "sended": true,
             "message": responseBody['message']
           };
         case 404:
-          forgotLoad(false);
           return {
             "sended": false,
             "message": responseBody['message']
           };
         case 500:
-          forgotLoad(false);
           return {
             "sended": false,
             "message": responseBody['message']
           };
         default:
-          forgotLoad(false);
           ErrorDescription('Algo deu errado... Tente novamente mais tarde.');
       }
     } catch (e) {
       debugPrint('$e');
-      forgotLoad(false);
       return {
         "sended": false,
         "message": 'Algo deu errado... Tente novamente mais tarde.'
