@@ -47,11 +47,7 @@ class SaveSuccessView extends StatelessWidget {
                 padding: const EdgeInsets.symmetric( vertical: 12 ),
                 child: ElevatedButton(
                   onPressed: () {
-                    SavedController savedController = Get.put(SavedController());
-                    HomeControll homeControll = Get.put(HomeControll());
-                    savedController.update();
-                    homeControll.update();
-                    Get.offNamedUntil('/home', (route) => false);
+                    Get.offAllNamed('/home');
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: MyPassColors.purpleLight,

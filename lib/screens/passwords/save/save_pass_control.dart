@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mypass/screens/home/homeControll.dart';
 import 'package:mypass/services/fetchData.dart';
 
 class SavePassControll extends GetxController {
@@ -24,6 +25,7 @@ class SavePassControll extends GetxController {
 
       switch ( response.statusCode ) {
         case 201:
+          Get.find<HomeControll>().update();
           return true;
         case 401:
           return false;
