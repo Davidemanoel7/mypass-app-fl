@@ -12,7 +12,9 @@ class HomeControll extends GetxController {
 
   Rx<User> usr = User(email:'', name: '', user: '', profileImage: '', userType: '').obs;
   RxList<Password> listPasswords = <Password>[].obs;
+  RxList<Password> displayedPasswords = <Password>[].obs;
   RxInt pageNum = 1.obs;
+  RxInt totalPages = 1.obs;
 
   @override
   void onInit() async {
@@ -69,7 +71,9 @@ class HomeControll extends GetxController {
         case 200:
           List<Password> responseBodyPass = List<Map<String, dynamic>>.from(responseBody['passwords'])
             .map((p) => Password.fromJson(p)).toList();
-          
+          totalPages(responseBody['totalPages']);
+          displayedPasswords( listPasswords );
+
           if ( responseBodyPass.isNotEmpty ) {
             debugPrint('${responseBody['currentPage']}/${responseBody['totalPages']}');
             listPasswords.addAll( responseBodyPass );
@@ -91,6 +95,17 @@ class HomeControll extends GetxController {
       }  
     } catch (e) {
       debugPrint('$e'); 
+    }
+  }
+  Future<void> searchPasswords( String searchValue ) async {
+    if ( searchValue.isEmpty ) {
+      displayedPasswords.clear();
+      displayedPasswords( listPasswords );
+    } else {
+      displayedPasswords(
+        listPasswords.where(
+        ( pass ) => pass.description.toLowerCase().contains(searchValue.toLowerCase())
+      ).toList());
     }
   }
 }

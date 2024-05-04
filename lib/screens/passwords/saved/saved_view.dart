@@ -20,9 +20,11 @@ class SavedPassView extends StatelessWidget {
 
     _scrollController.addListener(() async {
       if ( !homeController.loadRequest.value && _scrollController.position.pixels == _scrollController.position.maxScrollExtent ){
-        homeController.pageNum.value += 1;
         scrollFetching(true);
-        await homeController.fetchPasswords();
+        if ( homeController.pageNum.value < homeController.totalPages.value ){
+          homeController.pageNum.value += 1;
+          await homeController.fetchPasswords();
+        }
         scrollFetching(false);
       }
     });
@@ -96,7 +98,7 @@ class SavedPassView extends StatelessWidget {
                   textInputAction: TextInputAction.done,
                   // validator: (value) => validInput.validationMessage( ValidationType.senha, value! ),
                   onChanged: (value) {
-                    debugPrint(value);
+                    homeController.searchPasswords( value );
                   },
                 ),
               ),
@@ -137,7 +139,7 @@ class SavedPassView extends StatelessWidget {
                     physics: const NeverScrollableScrollPhysics(),
                     // controller: _scrollController,
                     scrollDirection: Axis.vertical,
-                    itemCount: homeController.loadRequest.value ? 8 :  homeController.listPasswords.length,
+                    itemCount: homeController.loadRequest.value ? 8 :  homeController.displayedPasswords.length,
                     shrinkWrap: true,
                     itemBuilder: (context, index) =>
                       homeController.loadRequest.value
@@ -146,7 +148,7 @@ class SavedPassView extends StatelessWidget {
                             width: MediaQuery.of(context).size.width,
                             borderRadius: 16
                           )
-                        : PasswordButton(pass: homeController.listPasswords[index]),
+                        : PasswordButton(pass: homeController.displayedPasswords[index]),
                     separatorBuilder: (context, index) => const SizedBox(height: 8),
                   ),
                 )
