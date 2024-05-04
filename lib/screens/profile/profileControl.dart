@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -9,6 +10,11 @@ import 'package:mypass/managers/cache_manager.dart';
 import 'package:mypass/models/userModel.dart';
 import 'package:mypass/screens/home/homeControll.dart';
 import 'package:permission_handler/permission_handler.dart';
+
+enum PermissionType {
+  CAMERA,
+  GALERY,
+}
 
 class ProfileControl extends GetxController with SharedPrefManager {
 
@@ -79,10 +85,41 @@ class ProfileControl extends GetxController with SharedPrefManager {
     }
   }
 
-  Future<bool> requestPermission( Permission perm) async {
-    final status = perm.request();
-    
-    
+  Future<bool> checkCameraPermission() async {
+    const permission = Permission.camera;
+
+    if ( await permission.isDenied ) {
+      final request = await permission.request();
+      if ( request.isGranted ) {
+        await setItemFromCache('camera_permission', TypeKey.bool, true );
+        return true;
+      } else if ( request.isDenied ) {
+        // openAppSettings();
+        return false;
+      } else if ( request.isPermanentlyDenied ) {
+        return false;
+      } else if ( request.isLimited ) {
+        return true;
+      }
+    }
+    return true;
+  }
+
+  Future<bool> checkPhotosPermission() async {
+    const permission = Permission.photos;
+
+    if ( await permission.isDenied ) {
+      final request = await permission.request();
+      if ( request.isGranted ) {
+        return true;
+      } else if ( request.isDenied ) {
+        return false;
+      } else if ( request.isPermanentlyDenied ) {
+        return false;
+      } else if ( request.isLimited ) {
+        return true;
+      }
+    }
     return true;
   }
 }
