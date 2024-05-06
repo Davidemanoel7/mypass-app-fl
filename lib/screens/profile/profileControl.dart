@@ -42,20 +42,26 @@ class ProfileControl extends GetxController with SharedPrefManager {
     }
   }
 
-  // continue aqui: https://faun.pub/flutter-upload-image-to-server-from-mobile-d9416f1db972
-  // ou esse https://stackoverflow.com/questions/44841729/how-to-upload-images-to-server-in-flutter
-  Future<File?> getImageFromGallery() async {
+  Future<File?> getUserImages( PermissionType type) async {
+    ImageSource src = type == PermissionType.CAMERA ? ImageSource.camera : ImageSource.gallery;
+    bool checkPermission = type == PermissionType.CAMERA
+      ? await checkCameraPermission()
+      : await checkPhotosPermission();
+    
+    if ( !checkPermission ) {
+      return null;
+    }
+
     final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    final pickedFile = await picker.pickImage( source: src );
     if ( pickedFile == null ) {
       return null;
     }
     return File(pickedFile.path);
   }
 
-  Future<void> uploadImage() async {
-    File? imageFl = await getImageFromGallery();
-
+  Future<void> uploadImage( PermissionType type) async {
+    File? imageFl = await getUserImages( type );
     if ( imageFl == null ) {
       return;
     }
@@ -86,16 +92,15 @@ class ProfileControl extends GetxController with SharedPrefManager {
   }
 
   Future<bool> checkCameraPermission() async {
-    const permission = Permission.camera;
+    PermissionStatus permission = await Permission.camera.status;
 
-    if ( await permission.isDenied ) {
-      final request = await permission.request();
+    if ( permission.isDenied ) {
+      final request = await Permission.camera.request();
       if ( request.isGranted ) {
         await setItemFromCache('camera_permission', TypeKey.bool, true );
         return true;
       } else if ( request.isDenied ) {
-        // openAppSettings();
-        return false;
+        return await openAppSettings();
       } else if ( request.isPermanentlyDenied ) {
         return false;
       } else if ( request.isLimited ) {
@@ -106,14 +111,15 @@ class ProfileControl extends GetxController with SharedPrefManager {
   }
 
   Future<bool> checkPhotosPermission() async {
-    const permission = Permission.photos;
+    PermissionStatus permission = await Permission.photos.status;
 
-    if ( await permission.isDenied ) {
-      final request = await permission.request();
+    if ( permission.isDenied ) {
+      final request = await Permission.photos.request();
       if ( request.isGranted ) {
+        await setItemFromCache('photos_permission', TypeKey.bool, true );
         return true;
       } else if ( request.isDenied ) {
-        return false;
+        return await openAppSettings();
       } else if ( request.isPermanentlyDenied ) {
         return false;
       } else if ( request.isLimited ) {

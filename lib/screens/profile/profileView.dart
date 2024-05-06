@@ -83,73 +83,108 @@ class ProfileView extends StatelessWidget {
                               right: 16.0,
                               child: IconButton.filled(
                                 onPressed: () async {
-                                  // Get.bottomSheet(
-                                  //   BottomSheet(
-                                  //     onClosing: (){},
-                                  //     builder: (_) =>
-                                  //       Container(
-                                  //         width: context.width,
-                                  //         height: context.height * 0.2,
-                                  //         decoration: const BoxDecoration(
-                                  //           shape: BoxShape.rectangle,
-                                  //           borderRadius: BorderRadius.all( Radius.circular(32) ),
-                                  //           color: MyPassColors.whiteF0,
-                                  //         ),
-                                  //         padding: const EdgeInsets.all(24),
-                                  //         child: Column(
-                                  //           children: [
-                                  //             Padding(
-                                  //               padding: const EdgeInsets.only(top: 16.0),
-                                  //               child: ElevatedButton(
-                                  //                 onPressed: () {
-                                  //                   Get.back();
-                                  //                 },
-                                  //                 style: ElevatedButton.styleFrom(
-                                  //                   fixedSize: Size(
-                                  //                     context.width,
-                                  //                     64
-                                  //                   ),
-                                  //                   backgroundColor: MyPassColors.purpleLight
-                                  //                 ),
-                                  //                 child: Text(
-                                  //                   'Ok',
-                                  //                   style: MyPassFonts.style.kLabelLarge(
-                                  //                     context,
-                                  //                     color: MyPassColors.whiteF0,
-                                  //                   ),
-                                  //                 )
-                                  //               ),
-                                  //             ),
-                                  //             Padding(
-                                  //               padding: const EdgeInsets.only(top: 16.0),
-                                  //               child: ElevatedButton(
-                                  //                 onPressed: () {
-                                  //                   Get.back();
-                                  //                 },
-                                  //                 style: ElevatedButton.styleFrom(
-                                  //                   fixedSize: Size(
-                                  //                     context.width,
-                                  //                     64
-                                  //                   ),
-                                  //                   backgroundColor: MyPassColors.purpleLight
-                                  //                 ),
-                                  //                 child: Text(
-                                  //                   'Ok',
-                                  //                   style: MyPassFonts.style.kLabelLarge(
-                                  //                     context,
-                                  //                     color: MyPassColors.whiteF0,
-                                  //                   ),
-                                  //                 )
-                                  //               ),
-                                  //             )
-                                  //           ],
-                                  //         ),
-                                  //       )
-                                  //   )
-                                  // );
+                                  Get.bottomSheet(
+                                    BottomSheet(
+                                      onClosing: (){},
+                                      builder: (_) =>
+                                        Container(
+                                          width: context.width,
+                                          height: context.height * 0.3,
+                                          decoration: const BoxDecoration(
+                                            shape: BoxShape.rectangle,
+                                            borderRadius: BorderRadius.all( Radius.circular(32) ),
+                                            color: MyPassColors.whiteF0,
+                                          ),
+                                          padding: const EdgeInsets.all(24),
+                                          child: Column(
+                                            children: [
+                                              Text(
+                                                'Por onde deseja escolher sua foto?',
+                                                style: MyPassFonts.style.kLabelLarge(
+                                                  context,
+                                                  color: MyPassColors.black1B
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(top: 16.0),
+                                                child: OutlinedButton(
+                                                  onPressed: () async {
+                                                    await profileControl.uploadImage( PermissionType.CAMERA );
+                                                    // await profileControl.checkCameraPermission();
+                                                  },
+                                                  style: OutlinedButton.styleFrom(
+                                                    fixedSize: Size(
+                                                      context.width,
+                                                      64
+                                                    ),
+                                                    side: const BorderSide(
+                                                      color: MyPassColors.purpleLight,
+                                                      width: 1
+                                                    )
+                                                  ),
+                                                  child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+                                                      const Icon(
+                                                        Icons.camera_alt_outlined,
+                                                        color: MyPassColors.black1B,
+                                                      ),
+                                                      const SizedBox(width: 16),
+                                                      Text(
+                                                        'Câmera',
+                                                        style: MyPassFonts.style.kLabelLarge(
+                                                          context,
+                                                          color: MyPassColors.black1B,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  )
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(top: 16.0),
+                                                child: OutlinedButton(
+                                                  onPressed: () async {
+                                                    await profileControl.uploadImage( PermissionType.GALERY );
+                                                    // await profileControl.checkPhotosPermission();
+                                                  },
+                                                  style: OutlinedButton.styleFrom(
+                                                    fixedSize: Size(
+                                                      context.width,
+                                                      64
+                                                    ),
+                                                    side: const BorderSide(
+                                                      color: MyPassColors.purpleLight,
+                                                      width: 1
+                                                    )
+                                                  ),
+                                                  child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+                                                      const Icon(
+                                                        Icons.filter_sharp,
+                                                        color: MyPassColors.black1B,
+                                                      ),
+                                                      const SizedBox( width: 16),
+                                                      Text(
+                                                        'Galeria',
+                                                        style: MyPassFonts.style.kLabelLarge(
+                                                          context,
+                                                          color: MyPassColors.black1B,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  )
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        )
+                                    )
+                                  );
                                   // await profileControl.uploadImage();
-                                  bool result =await profileControl.checkCameraPermission();
-                                  debugPrint('Permission Camera: $result');
+                                  // bool result =await profileControl.checkCameraPermission();
+                                  // debugPrint('Permission Camera: $result');
                                 },
                                 icon: const Icon(
                                   Icons.camera_alt_outlined,
