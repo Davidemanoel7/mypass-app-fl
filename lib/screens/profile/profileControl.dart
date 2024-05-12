@@ -11,6 +11,7 @@ import 'package:mypass/models/userModel.dart';
 import 'package:mypass/screens/home/homeControll.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+
 enum PermissionType {
   CAMERA,
   GALERY,
@@ -42,7 +43,7 @@ class ProfileControl extends GetxController with SharedPrefManager {
     }
   }
 
-  Future<File?> getUserImages( PermissionType type) async {
+  Future<XFile?> getUserImages( PermissionType type) async {
     ImageSource src = type == PermissionType.CAMERA ? ImageSource.camera : ImageSource.gallery;
     bool checkPermission = type == PermissionType.CAMERA
       ? await checkCameraPermission()
@@ -54,14 +55,39 @@ class ProfileControl extends GetxController with SharedPrefManager {
 
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage( source: src );
+    
     if ( pickedFile == null ) {
       return null;
     }
-    return File(pickedFile.path);
+    File picked = File( pickedFile.path );
+
+    XFile userImage = XFile.fromData(
+      picked.readAsBytesSync(),
+      mimeType: await getMimeType( picked ),
+      name: user.value.user,
+      length: picked.lengthSync(),
+      path: picked.path
+    );
+
+    debugPrint( userImage.mimeType );
+
+    return userImage;
+  }
+
+  Future<String?> getMimeType(File file) async {
+    String ext = file.path.split('.').last.toLowerCase();
+
+    Map<String, String> mimeTypes = {
+      'png': 'image/png',
+      'jpg': 'image/jpg',
+      'jpeg': 'image/jpeg',
+    };
+
+    return mimeTypes[ext];
   }
 
   Future<void> uploadImage( PermissionType type) async {
-    File? imageFl = await getUserImages( type );
+    XFile? imageFl = await getUserImages( type );
     if ( imageFl == null ) {
       return;
     }
